@@ -10,6 +10,10 @@ import {
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
 
+export function HydrateFallback() {
+  return <div>Loading...</div>;
+}
+
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
@@ -43,7 +47,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return <>
+    <div className="flex flex-col min-h-screen">
+      <header className="bg-blue-500 text-white p-4">
+        <h1 className="text-2xl">Japanese Conjugation Practice</h1>
+      </header>
+      <main className="flex-grow p-4">
+        <Outlet />
+      </main>
+      <footer className="bg-blue-500 text-white p-4 mt-auto">
+        Japanese Conjugation Practice app by Devin Holland. Licensed under CC BY-SA.
+      </footer>
+    </div>
+  </>;
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
@@ -63,7 +79,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
+    <div className="flex flex-col min-h-screen">
       <h1>{message}</h1>
       <p>{details}</p>
       {stack && (
@@ -71,6 +87,6 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
           <code>{stack}</code>
         </pre>
       )}
-    </main>
+    </div>
   );
 }
