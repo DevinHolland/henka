@@ -1,46 +1,43 @@
-import { NestedCheckbox, type NestedCheckboxOptions } from "~/components/nested-checkbox";
+import { getSelectedLowestLevelOptions, NestedCheckbox, type NestedCheckboxOption, type NestedCheckboxOptions } from "~/components/nested-checkbox";
 import type { Route } from "./+types/_index";
 import { useState } from 'react';
+import { useNavigate } from "react-router";
 
-const initialState = {
-  verb: {
-    selected: false,
-    label: "Verb",
+const initialState: NestedCheckboxOptions = {
+  chapter2Adjectives: {
+    label: "Chapter 2 Adjectives",
     children: {
-      present: {
-        selected: false,
-        label: "Present",
+      predicateNonPastPoliteAffirmative: {
+        label: "Predicate: Non-Past Polite Affirmative",
       },
-      past: {
-        selected: false,
-        label: "Past",
-      },
-    },
+      predicateNonPastPoliteNegative: {
+        label: "Predicate: Non-Past Polite Negative",
+      }
+    }
   },
-  adjective: {
-    selected: false,
-    label: "Adjective",
+  chapter3Verbs: {
+    label: "Chapter 3 Verbs",
     children: {
-      positive: {
-        selected: false,
-        label: "Positive",
+      nonPastPlainNegative: {
+        label: "Non-Past Plain Negative",
       },
-      negative: {
-        selected: false,
-        label: "Negative",
-        children: {
-          present: {
-            selected: false,
-            label: "Present",
-          },
-          past: {
-            selected: false,
-            label: "Past",
-          }
-        }
+      nonPastPoliteAffirmative: {
+        label: "Non-Past Polite Affirmative",
       },
-    },
-  },
+      nonPastPoliteNegative: {
+        label: "Non-Past Polite Negative",
+      },
+      pastPoliteAffirmative: {
+        label: "Past Polite Affirmative",
+      },
+      pastPoliteNegative: {
+        label: "Past Polite Negative",
+      },
+      politeVolitional: {
+        label: "Polite Volitional",
+      }
+    }
+  }
 };
 
 export function meta({ }: Route.MetaArgs) {
@@ -52,17 +49,33 @@ export function meta({ }: Route.MetaArgs) {
 
 export default function Home() {
   const [options, setOptions] = useState(initialState);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // log form state
-    console.log(options);
+
+    const selectedOptions = getSelectedLowestLevelOptions(options);
+    if (selectedOptions.length === 0) {
+      setError("Please select at least one option.");
+    } else {
+      setError(null);
+      sessionStorage.setItem("selectedForms", JSON.stringify(selectedOptions));
+      
+      navigate('/vocab', { state: { selectedForms: selectedOptions } });
+    }
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <NestedCheckbox options={options} setOptions={setOptions} />
-      <button type="submit">Submit</button>
-    </form>
+    <div className="flex flex-col items-center">
+      <h2 className="mb-4 ">Select which forms you wish to practice<br />(vocabulary will be chosen on the next page):</h2>
+      <form onSubmit={onSubmit} className="flex flex-col items-center">
+        <NestedCheckbox options={options} setOptions={setOptions} />
+        {error && <p className="text-red-500">{error}</p>}
+        <div className="w-full flex justify-end">
+          <button type="submit" className="mt-4">Next</button>
+        </div>
+      </form>
+    </div>
   )
 }

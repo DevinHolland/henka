@@ -3,11 +3,9 @@ export interface NestedCheckboxOptions {
 }
 
 export interface NestedCheckboxOption {
-    selected: boolean;
+    selected?: boolean;
     label: string;
-    children?: {
-        [key: string]: NestedCheckboxOption;
-    }
+    children?: NestedCheckboxOptions
 }
 
 interface NestedCheckboxProps {
@@ -28,9 +26,26 @@ function handleAncestors(topLevelOption: NestedCheckboxOption, keysExcludingSele
 
 function handleChildren(option: NestedCheckboxOption, selected: boolean) {
     option.selected = selected;
-    if(option.children) {
+    if (option.children) {
         Object.values(option.children).forEach(child => handleChildren(child, selected));
     }
+}
+
+export function getSelectedLowestLevelOptions(options: NestedCheckboxOptions, parentKey?: string): string[] {
+    const selectedOptions: string[] = [];
+
+    for (const key in options) {
+        const option = options[key];
+        const fullKey = parentKey ? `${parentKey}.${key}` : key;
+
+        if (!option.children && option.selected) {
+            selectedOptions.push(fullKey);
+        } else if (option.children) {
+            selectedOptions.push(...getSelectedLowestLevelOptions(option.children, fullKey));
+        }
+    }
+
+    return selectedOptions;
 }
 
 export const NestedCheckbox: React.FC<NestedCheckboxProps> = ({ options, setOptions }) => {
@@ -40,7 +55,7 @@ export const NestedCheckbox: React.FC<NestedCheckboxProps> = ({ options, setOpti
             const keys = key.split('.');
             const topLevelOption = newOptions[keys[0]];
 
-            if(keys.length > 1) {
+            if (keys.length > 1) {
                 const selectedOption = keys.slice(1).reduce((acc, key) => acc.children![key]!, topLevelOption);
                 selectedOption.selected = !selectedOption.selected;
                 handleAncestors(topLevelOption, keys.slice(1, keys.length - 1));
@@ -62,7 +77,7 @@ export const NestedCheckbox: React.FC<NestedCheckboxProps> = ({ options, setOpti
                 <label>
                     <input
                         type="checkbox"
-                        checked={options[key].selected}
+                        checked={options[key].selected ? true : false}
                         onChange={() => handleCheckboxChange(`${keyPath}${key}`)}
                     />
                     {options[key].label}

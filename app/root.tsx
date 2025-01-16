@@ -50,13 +50,13 @@ export default function App() {
   return <>
     <div className="flex flex-col min-h-screen">
       <header className="bg-blue-500 text-white p-4">
-        <h1 className="text-2xl">Japanese Conjugation Practice</h1>
+        <h1 className="text-2xl">Yookoso! Conjugation Practice</h1>
       </header>
       <main className="flex-grow p-4">
         <Outlet />
       </main>
       <footer className="bg-blue-500 text-white p-4 mt-auto">
-        Japanese Conjugation Practice app by Devin Holland. Licensed under CC BY-SA.
+        Yookoso! Conjugation Practice app by Devin Holland. Licensed under CC BY-SA.
       </footer>
     </div>
   </>;
