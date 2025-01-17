@@ -11,6 +11,7 @@ export interface NestedCheckboxOption {
 interface NestedCheckboxProps {
     options: NestedCheckboxOptions;
     setOptions: React.Dispatch<React.SetStateAction<NestedCheckboxOptions>>;
+    onChange?: (selectedOptions: string[]) => void;
 }
 
 function handleAncestors(topLevelOption: NestedCheckboxOption, keysExcludingSelected: string[]) {
@@ -48,7 +49,7 @@ export function getSelectedLowestLevelOptions(options: NestedCheckboxOptions, pa
     return selectedOptions;
 }
 
-export const NestedCheckbox: React.FC<NestedCheckboxProps> = ({ options, setOptions }) => {
+export const NestedCheckbox: React.FC<NestedCheckboxProps> = ({ options, setOptions, onChange }) => {
     const handleCheckboxChange = (key: string) => {
         setOptions(prevOptions => {
             const newOptions = structuredClone(prevOptions);
@@ -64,7 +65,9 @@ export const NestedCheckbox: React.FC<NestedCheckboxProps> = ({ options, setOpti
                 topLevelOption.selected = !topLevelOption.selected;
                 handleChildren(topLevelOption, topLevelOption.selected);
             }
-
+            if(onChange) {
+                onChange(getSelectedLowestLevelOptions(newOptions));
+            }
             return newOptions;
         });
     };

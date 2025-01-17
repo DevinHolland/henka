@@ -90,7 +90,7 @@ export default function Vocab() {
         <div className="flex flex-col items-center">
             <h2 className="mb-4 ">Select which vocabulary to practice:</h2>
             <form onSubmit={onSubmit} className="flex flex-col items-center">
-                <NestedCheckbox options={options} setOptions={setOptions} />
+                <NestedCheckbox options={options} setOptions={setOptions} onChange={() => setError(null)} />
                 {error && <p className="text-red-500">{error}</p>}
                 <div className="w-full flex justify-end">
                     <button type="submit" className="mt-4">Next</button>

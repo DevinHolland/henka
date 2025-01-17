@@ -70,7 +70,7 @@ export default function Home() {
     <div className="flex flex-col items-center">
       <h2 className="mb-4 ">Select which forms you wish to practice<br />(vocabulary will be chosen on the next page):</h2>
       <form onSubmit={onSubmit} className="flex flex-col items-center">
-        <NestedCheckbox options={options} setOptions={setOptions} />
+        <NestedCheckbox options={options} setOptions={setOptions} onChange={() => setError(null)} />
         {error && <p className="text-red-500">{error}</p>}
         <div className="w-full flex justify-end">
           <button type="submit" className="mt-4">Next</button>
