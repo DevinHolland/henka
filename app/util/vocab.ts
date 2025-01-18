@@ -6,20 +6,29 @@ export interface Vocab {
     root: string;
     furigana?: string;
     ending: string;
-    polarity: Polarity;
+}
+
+export interface VocabProps extends Vocab {
+    polarity?: Polarity;
     politeness: Politeness;
 }
 
-export type AdjectiveTense = 'nonPast' | 'past';
-export type AdjectiveType = 'i' | 'na' | 'irregular';
-export interface AdjectiveVocab extends Vocab {
-    tense: AdjectiveTense;
-    type: AdjectiveType;
+// export type AdjectiveType = 'i' | 'na' | 'irregular';
+// export interface AdjectiveVocab {
+//     type: AdjectiveType;
+// }
+
+// export type AdjectiveTense = 'nonPast' | 'past';
+// export interface AdjectiveVocabProps extends AdjectiveVocab, VocabProps {
+//     tense: AdjectiveTense;   
+// }
+
+export type VerbType = 'godan' | 'ichidan' | 'irregular';
+export interface VerbVocab {
+    type: VerbType;
 }
 
 export type VerbTense = 'nonPast' | 'past' | 'volitional' | 'potential';
-export type VerbType = 'godan' | 'ichidan' | 'irregular';
-export interface VerbVocab extends Vocab {
+export interface VerbVocabProps extends VerbVocab, VocabProps  {
     tense: VerbTense;
-    type: VerbVocab;
 }
