@@ -1,5 +1,5 @@
 import { getSelectedLowestLevelOptions, NestedCheckbox, type NestedCheckboxOption, type NestedCheckboxOptions } from "~/components/nested-checkbox";
-import type { Route } from "./+types/vocab";
+import type { Route } from "./+types/vocab.$formsMask";
 import { useState } from 'react';
 import { useNavigate, useParams } from "react-router";
 import { findAllByMask, FORM_OPTIONS, type FormOption } from "~/util/options";
