@@ -1,41 +1,26 @@
-import { getSelectedLowestLevelOptions, NestedCheckbox, type NestedCheckboxOption, type NestedCheckboxOptions } from "~/components/nested-checkbox";
+import { getOptionsBitmask, getSelectedLowestLevelOptions, NestedCheckbox, type NestedCheckboxOption, type NestedCheckboxOptions } from "~/components/nested-checkbox";
 import type { Route } from "./+types/_index";
 import { useState } from 'react';
 import { useNavigate } from "react-router";
+import { FORM_OPTIONS } from "~/util/options";
 
 const initialState: NestedCheckboxOptions = {
   chapter2Adjectives: {
     label: "Chapter 2 Adjectives",
     children: {
-      predicateNonPastPoliteAffirmative: {
-        label: "Predicate: Non-Past Polite Affirmative",
-      },
-      predicateNonPastPoliteNegative: {
-        label: "Predicate: Non-Past Polite Negative",
-      }
+      predicateNonPastPoliteAffirmative: FORM_OPTIONS.predicateNonPastPoliteAffirmative,
+      predicateNonPastPoliteNegative: FORM_OPTIONS.predicateNonPastPoliteNegative,
     }
   },
   chapter3Verbs: {
     label: "Chapter 3 Verbs",
     children: {
-      nonPastPlainNegative: {
-        label: "Non-Past Plain Negative",
-      },
-      nonPastPoliteAffirmative: {
-        label: "Non-Past Polite Affirmative",
-      },
-      nonPastPoliteNegative: {
-        label: "Non-Past Polite Negative",
-      },
-      pastPoliteAffirmative: {
-        label: "Past Polite Affirmative",
-      },
-      pastPoliteNegative: {
-        label: "Past Polite Negative",
-      },
-      politeVolitional: {
-        label: "Polite Volitional",
-      }
+      nonPastPlainNegative: FORM_OPTIONS.nonPastPlainNegative,
+      nonPastPoliteAffirmative: FORM_OPTIONS.nonPastPoliteAffirmative,
+      nonPastPoliteNegative: FORM_OPTIONS.nonPastPoliteNegative,
+      pastPoliteAffirmative: FORM_OPTIONS.pastPoliteAffirmative,
+      pastPoliteNegative: FORM_OPTIONS.pastPoliteNegative,
+      volitionalPolite: FORM_OPTIONS.volitionalPolite,
     }
   }
 };
@@ -60,9 +45,7 @@ export default function Home() {
       setError("Please select at least one option.");
     } else {
       setError(null);
-      sessionStorage.setItem("selectedForms", JSON.stringify(selectedOptions));
-      
-      navigate('/vocab', { state: { selectedForms: selectedOptions } });
+      navigate(`/vocab/${getOptionsBitmask(selectedOptions)}`);
     }
   };
 

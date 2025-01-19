@@ -5,13 +5,14 @@ export interface NestedCheckboxOptions {
 export interface NestedCheckboxOption {
     selected?: boolean;
     label: string;
+    bitMaskId?: bigint;
     children?: NestedCheckboxOptions
 }
 
 interface NestedCheckboxProps {
     options: NestedCheckboxOptions;
     setOptions: React.Dispatch<React.SetStateAction<NestedCheckboxOptions>>;
-    onChange?: (selectedOptions: string[]) => void;
+    onChange?: () => void;
 }
 
 function handleAncestors(topLevelOption: NestedCheckboxOption, keysExcludingSelected: string[]) {
@@ -32,21 +33,23 @@ function handleChildren(option: NestedCheckboxOption, selected: boolean) {
     }
 }
 
-export function getSelectedLowestLevelOptions(options: NestedCheckboxOptions, parentKey?: string): string[] {
-    const selectedOptions: string[] = [];
+export function getSelectedLowestLevelOptions(options: NestedCheckboxOptions): NestedCheckboxOption[] {
+    const selectedOptions: NestedCheckboxOption[] = [];
 
     for (const key in options) {
         const option = options[key];
-        const fullKey = parentKey ? `${parentKey}.${key}` : key;
-
         if (!option.children && option.selected) {
-            selectedOptions.push(fullKey);
+            selectedOptions.push(option);
         } else if (option.children) {
-            selectedOptions.push(...getSelectedLowestLevelOptions(option.children, fullKey));
+            selectedOptions.push(...getSelectedLowestLevelOptions(option.children));
         }
     }
 
     return selectedOptions;
+}
+
+export function getOptionsBitmask(options: NestedCheckboxOption[]): bigint {
+    return options.reduce((acc, option) => acc + (option.bitMaskId ? option.bitMaskId : 0n), 0n)
 }
 
 export const NestedCheckbox: React.FC<NestedCheckboxProps> = ({ options, setOptions, onChange }) => {
@@ -66,7 +69,7 @@ export const NestedCheckbox: React.FC<NestedCheckboxProps> = ({ options, setOpti
                 handleChildren(topLevelOption, topLevelOption.selected);
             }
             if(onChange) {
-                onChange(getSelectedLowestLevelOptions(newOptions));
+                onChange();
             }
             return newOptions;
         });

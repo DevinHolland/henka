@@ -1,4 +1,4 @@
-import type { Polarity, Politeness, VerbTense, VerbType, VerbVocabProps } from "./vocab"
+import type { Polarity, Politeness, VerbTense, VerbType, VerbVocabProps } from "./vocab";
 
 const A_COLUMN_MAP: Record<string, string> = {
     'う': 'わ',
@@ -10,7 +10,7 @@ const A_COLUMN_MAP: Record<string, string> = {
     'ぶ': 'ば',
     'む': 'ま',
     'る': 'ら',
-}
+};
 
 const I_COLUMN_MAP: Record<string, string> = {
     'う': 'い',
@@ -22,7 +22,7 @@ const I_COLUMN_MAP: Record<string, string> = {
     'ぶ': 'び',
     'む': 'み',
     'る': 'り',
-}
+};
 
 const E_COLUMN_MAP: Record<string, string> = {
     'う': 'え',
@@ -34,9 +34,9 @@ const E_COLUMN_MAP: Record<string, string> = {
     'ぶ': 'べ',
     'む': 'め',
     'る': 'れ',
-}
+};
 
-const PLAIN_PAST_MAP: Record<string, string> = {
+const VERB_PLAIN_PAST_MAP: Record<string, string> = {
     'う': 'った',
     'く': 'いた',
     'ぐ': 'いだ',
@@ -46,11 +46,23 @@ const PLAIN_PAST_MAP: Record<string, string> = {
     'ぶ': 'んだ',
     'む': 'んだ',
     'る': 'った',
-}
+};
+
+const VERB_NO_OP_MAP: Record<string, string> = {
+    'う': 'う',
+    'く': 'く',
+    'ぐ': 'ぐ',
+    'す': 'す',
+    'つ': 'つ',
+    'ぬ': 'ぬ',
+    'ぶ': 'ぶ',
+    'む': 'む',
+    'る': 'る',
+};
 
 const DROP_RU_MAP: Record<string, string> = {
     'る': '',
-}
+};
 
 interface Conjugation {
     endingChange: Record<string, string>;
@@ -58,7 +70,7 @@ interface Conjugation {
 }
 
 interface TenseConjugation {
-    affirmative?: Conjugation | string;
+    affirmative: Conjugation | string;
     negative: Conjugation | string;
 }
 
@@ -89,6 +101,10 @@ const verbConjugations: VerbConjugations = {
     godan: {
         plain: {
             nonPast: {
+                affirmative: {
+                    endingChange: VERB_NO_OP_MAP,
+                    endings: [''],
+                },
                 negative: {
                     endingChange: A_COLUMN_MAP,
                     endings: ['ない'],
@@ -96,7 +112,7 @@ const verbConjugations: VerbConjugations = {
             },
             past: {
                 affirmative: {
-                    endingChange: PLAIN_PAST_MAP,
+                    endingChange: VERB_PLAIN_PAST_MAP,
                     endings: [''],
                 },
                 negative: {
@@ -143,6 +159,10 @@ const verbConjugations: VerbConjugations = {
     ichidan: {
         plain: {
             nonPast: {
+                affirmative: {
+                    endingChange: VERB_NO_OP_MAP,
+                    endings: [''],
+                },
                 negative: {
                     endingChange: DROP_RU_MAP,
                     endings: ['ない'],
@@ -198,6 +218,7 @@ const verbConjugations: VerbConjugations = {
         suru: {
             plain: {
                 nonPast: {
+                    affirmative: 'する',
                     negative: 'しない',
                 },
                 past: {
@@ -222,6 +243,7 @@ const verbConjugations: VerbConjugations = {
         kuru: {
             plain: {
                 nonPast: {
+                    affirmative: 'くる',
                     negative: 'こない',
                 },
                 past: {
@@ -248,13 +270,13 @@ const verbConjugations: VerbConjugations = {
 
 
 
-export interface ConjugatedVerb {
+export interface ConjugatedVocab {
     unchangedPart: string;
     changedPart: string;
     conjugated: string;
 }
 
-export function conjugateVerb(verb: VerbVocabProps): ConjugatedVerb[] {
+export function conjugateVerb(verb: VerbVocabProps): ConjugatedVocab[] {
     const verbTypeConjugation = verb.type === 'irregular'
         ? (verb.dictionaryForm === 'する' ? verbConjugations.irregular.suru : verbConjugations.irregular.kuru)
         : verbConjugations[verb.type];
@@ -274,13 +296,9 @@ export function conjugateVerb(verb: VerbVocabProps): ConjugatedVerb[] {
             conjugated,
         }));
     } else if (isConjugation(verbTense)) {
-        return conjugate(verb, verbTense);
+        return conjugate(verb.dictionaryForm, verbTense);
     } else if(verb.polarity && isTenseConjugation(verbTense)) {
         const conjugationOrConjugated = verbTense[verb.polarity];
-
-        if(!conjugationOrConjugated) {
-            return []
-        }
 
         if(typeof conjugationOrConjugated === 'string') {
             return [{
@@ -289,17 +307,17 @@ export function conjugateVerb(verb: VerbVocabProps): ConjugatedVerb[] {
                 conjugated: conjugationOrConjugated,
             }];
         } else {
-            return conjugate(verb, conjugationOrConjugated);
+            return conjugate(verb.dictionaryForm, conjugationOrConjugated);
         }
     }
 
     throw new Error('Unhandled conjugation');
 }
 
-function conjugate(verb: VerbVocabProps, conjugation: Conjugation): ConjugatedVerb[] {
-    const unchangedPart = verb.dictionaryForm.slice(0, -1);
+function conjugate(dictionaryForm: string, conjugation: Conjugation): ConjugatedVocab[] {
+    const unchangedPart = dictionaryForm.slice(0, -1);
     return conjugation.endings.map(ending => {
-        const changedPart = conjugation.endingChange[verb.dictionaryForm.slice(-1)] + ending;
+        const changedPart = conjugation.endingChange[dictionaryForm.slice(-1)] + ending;
         return { unchangedPart, changedPart, conjugated: unchangedPart + changedPart };
     });
 }
@@ -309,5 +327,5 @@ function isTenseConjugation(obj: any): obj is TenseConjugation {
 }
 
 function isConjugation(obj: any): obj is Conjugation {
-    return obj && typeof obj === 'object' && 'endingChange' in obj && 'ending' in obj;
+    return obj && typeof obj === 'object' && 'endingChange' in obj && 'endings' in obj;
 }

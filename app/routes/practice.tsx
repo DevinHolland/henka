@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useLocation } from "react-router";
 import { isHiragana, toHiragana } from 'wanakana';
-import { conjugateVerb, type ConjugatedVerb } from "~/util/conjugations";
+import { conjugateVerb, type ConjugatedVocab } from "~/util/conjugations";
 import type { VerbVocabProps } from "~/util/vocab";
 
 interface FormState {
     submitted: boolean;
     correct?: boolean;
-    conjugations?: ConjugatedVerb[];
+    conjugations?: ConjugatedVocab[];
 }
 
 export default function Practice() {
@@ -22,9 +22,8 @@ export default function Practice() {
         furigana: 'つか',
         ending: 'れる',
         type: 'ichidan',
-        tense: 'past',
-        politeness: 'polite',
-        polarity: 'negative',
+        tense: 'potential',
+        politeness: 'plain',
     };
 
     const handleSubmit = (event: React.FormEvent) => {
@@ -73,7 +72,7 @@ export default function Practice() {
 
     return (
         <div className="flex flex-col items-center space-y-2">
-            <h1 className="text-2xl">Past Polite Negative form of:</h1>
+            <h1 className="text-2xl">Plain Potential form of:</h1>
             <p className="text-4xl">
                 <ruby>{verb.root}<rt className="pb-1">{verb.furigana}</rt></ruby>{verb.ending}
             </p>

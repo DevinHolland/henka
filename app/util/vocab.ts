@@ -13,15 +13,15 @@ export interface VocabProps extends Vocab {
     politeness: Politeness;
 }
 
-// export type AdjectiveType = 'i' | 'na' | 'irregular';
-// export interface AdjectiveVocab {
-//     type: AdjectiveType;
-// }
+export type AdjectiveType = 'i' | 'na' | 'irregular';
+export interface AdjectiveVocab {
+    type: AdjectiveType;
+}
 
-// export type AdjectiveTense = 'nonPast' | 'past';
-// export interface AdjectiveVocabProps extends AdjectiveVocab, VocabProps {
-//     tense: AdjectiveTense;   
-// }
+export type AdjectiveTense = 'nonPast' | 'past';
+export interface AdjectiveVocabProps extends AdjectiveVocab, VocabProps {
+    tense: AdjectiveTense;   
+}
 
 export type VerbType = 'godan' | 'ichidan' | 'irregular';
 export interface VerbVocab {
