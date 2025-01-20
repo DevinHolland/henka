@@ -45,6 +45,13 @@ const initialState: NestedCheckboxOptions = {
       verbPastPlainAffirmative: FORM_OPTIONS.verbPastPlainAffirmative,
       verbPastPlainNegative: FORM_OPTIONS.verbPastPlainNegative,
     }
+  },
+  chapter5Verbs: {
+    label: "Chapter 5 Verbs",
+    bitMaskId: 0n,
+    children: {
+      verbPlainPotential: FORM_OPTIONS.verbPlainPotential,
+    }
   }
 };
 

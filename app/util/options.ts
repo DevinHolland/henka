@@ -27,6 +27,7 @@ export interface FormOptions {
     adjPredicatePastPoliteNegative: FormOption;
     verbPastPlainAffirmative: FormOption;
     verbPastPlainNegative: FormOption;
+    verbPlainPotential: FormOption;
 }
 
 const formsBitMask = new BitMask();
@@ -158,6 +159,13 @@ export const FORM_OPTIONS: FormOptions = {
         politeness: 'plain',
         polarity: 'negative',
     },
+    verbPlainPotential:{
+        bitMaskId: formsBitMask.nextId(),
+        vocabType: 'verb',
+        label: 'Plain Potential',
+        tense: 'potential',
+        politeness: 'plain',
+    },
 };
 
 interface VocabOptionBase {
@@ -181,12 +189,17 @@ export interface VocabOptions {
     chapter4IAdjectives: VocabOption;
     chapter4NaAdjectives: VocabOption;
 
+    chapter5NaAdjectives: VocabOption;
+
     // Verbs
     chapter3GodanVerbs: VocabOption;
     chapter3IchidanVerbs: VocabOption;
     chapter3IrregularVerbs: VocabOption;
 
     chapter4GodanVerbs: VocabOption;
+
+    chapter5GodanVerbs: VocabOption;
+    chapter5IchidanVerbs: VocabOption;
 }
 
 const iAdjectiveBase: VocabOptionBase = {
@@ -253,6 +266,11 @@ export const VOCAB_OPTIONS: VocabOptions = {
         bitMaskId: vocabBitMask.nextId(),
         chapter: 4,
     },
+    chapter5NaAdjectives: {
+        ...naAdjectiveBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 5,
+    },
 
     // Verbs
     chapter3GodanVerbs: {
@@ -275,5 +293,16 @@ export const VOCAB_OPTIONS: VocabOptions = {
         ...godanVerbBase,
         bitMaskId: vocabBitMask.nextId(),
         chapter: 4
+    },
+
+    chapter5GodanVerbs: {
+        ...godanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 5
+    },
+    chapter5IchidanVerbs: {
+        ...ichidanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 5
     },
 }
