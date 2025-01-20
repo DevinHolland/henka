@@ -6,6 +6,14 @@ if "%~2"=="" (
     exit /b 1
 )
 
+REM Check if the user is logged in to Azure
+echo Checking Azure login status...
+call az account show >nul 2>&1
+if %ERRORLEVEL% neq 0 (
+    echo You are not logged in to Azure. Please run 'az login' to log in.
+    exit /b 1
+)
+
 REM Assign command-line arguments to variables
 set "REGISTRY_USERNAME=%1"
 set "REGISTRY_PASSWORD=%2"
@@ -32,9 +40,9 @@ REM Push the Docker image to Azure Container Registry
 echo Pushing Docker image to Azure Container Registry...
 docker push %REGISTRY_NAME%.azurecr.io/%IMAGE_NAME%
 
-REM Login to Azure
-echo Logging in to Azure...
-call az login
+REM Delete the old container instance if it exists
+echo Deleting old container instance if it exists...
+call az container delete --resource-group %RESOURCE_GROUP% --name %CONTAINER_NAME% --yes
 
 REM Create a new container instance
 echo Creating new container instance...
