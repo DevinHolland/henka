@@ -36,6 +36,18 @@ const E_COLUMN_MAP: Record<string, string> = {
     'る': 'れ',
 };
 
+const O_COLUMN_MAP: Record<string, string> = {
+    'う': 'お',
+    'く': 'こ',
+    'ぐ': 'ご',
+    'す': 'そ',
+    'つ': 'と',
+    'ぬ': 'の',
+    'ぶ': 'ぼ',
+    'む': 'も',
+    'る': 'ろ',
+};
+
 const VERB_PLAIN_PAST_MAP: Record<string, string> = {
     'う': 'った',
     'く': 'いた',
@@ -118,7 +130,7 @@ const verbConjugations: VerbConjugations = {
                 },
             },
             volitional: {
-                endingChange: A_COLUMN_MAP,
+                endingChange: O_COLUMN_MAP,
                 endings: ['う'],
             },
             potential: {
