@@ -1,10 +1,29 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { isHiragana, toHiragana } from 'wanakana';
 import { conjugateVocab, type ConjugatedVocab } from "~/util/conjugations";
 import { fetchVocab, type Vocab, type VocabProps } from "~/util/vocab";
 import type { Route } from "./+types/practice.$formsMask.$vocabMask";
 import { BitMask, findAllByMask } from "~/util/bitmask";
 import { FORM_OPTIONS, VOCAB_OPTIONS, type FormOption, type VocabOption } from "~/util/options";
+
+// Custom wanakana mapping to fix ん typing
+const customeKanaMapping = {
+    n: 'n',
+    nn: 'ん',
+    nk: 'んk',
+    ns: 'んs',
+    nt: 'んt',
+    nh: 'んh',
+    nm: 'んm',
+    ny: 'んy',
+    nr: 'んr',
+    nw: 'んw',
+    ng: 'んg',
+    nz: 'んz',
+    nd: 'んd',
+    nb: 'んb',
+    np: 'んp',
+};
 
 interface FormState {
     inputValue: string;
@@ -42,11 +61,18 @@ function getRandomSuitableForm(forms: FormOption[], vocab: Vocab, excluding?: bi
 
     // If there's only one suitable form, don't exlude it from the list, otherwise there won't be a form to pick!
     if (suitableForms.length > 1 && excluding !== undefined) {
-        suitableForms = forms.filter(form => form.bitMaskId !== excluding);
+        suitableForms = suitableForms.filter(form => form.bitMaskId !== excluding);
     }
 
     const randomIndex = Math.floor(Math.random() * suitableForms.length);
     return suitableForms[randomIndex];
+}
+
+export function meta({ }: Route.MetaArgs) {
+    return [
+        { title: "Japanese Conjugation Practice" },
+        { name: "description", content: "Practice Japanese Conjugation" },
+    ];
 }
 
 export default function Practice({
@@ -66,8 +92,7 @@ export default function Practice({
     const [formState, setFormState] = useState(initialFormState);
     const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
+    const handleSubmit = () => {
         if (formState.submitted) {
             const newVocab = getRandomVocab(selectedVocab.length > 1 ? selectedVocab.filter(v => v.kanaForm !== formState.vocab.kanaForm) : selectedVocab);
             const newForm = getRandomSuitableForm(selectedForms, newVocab, formState.vocabForm.bitMaskId);
@@ -87,17 +112,26 @@ export default function Practice({
         }
     };
 
+    useEffect(() => {
+        const handleEnter = (event: KeyboardEvent) => {
+            if (event.key === 'Enter') {
+                handleSubmit();
+            }
+        }
+
+        document.addEventListener('keydown', handleEnter);
+
+        return () => document.removeEventListener('keydown', handleEnter);
+    }, [formState, setFormState, error, setError]);
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setError(null);
         setFormState({
             ...formState,
             inputValue: toHiragana(event.target.value, {
                 // Allows N column kana to be entered
-                customKanaMapping: {
-                    n: 'n',
-                    nn: 'ん'
-                }
-            })
+                customKanaMapping: customeKanaMapping
+            }),
         });
     };
 
@@ -117,16 +151,16 @@ export default function Practice({
     }
 
     return (
-        <div className="flex flex-col items-center space-y-2">
-            <h1 className="text-2xl">{formState.vocabForm.label} form of:</h1>
-            <p className="text-4xl">
+        <div className="flex flex-col items-center space-y-4">
+            <h1 className="text-2xl text-center">{formState.vocabForm.label} form of:</h1>
+            <p className="text-5xl">
                 <ruby>{formState.vocab.root}<rt className="pb-1">{formState.vocab.furigana}</rt></ruby>{formState.vocab.ending}
             </p>
-            <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-2">
+            <form className="flex flex-col items-center space-y-4" onSubmit={(e) => e.preventDefault()}>
                 {error && <p className="text-red-500">{error}</p>}
-                {!formState.submitted && <input type="text" value={formState.inputValue} onChange={handleChange}></input>}
+                {!formState.submitted && <input type="text" value={formState.inputValue} onChange={handleChange} autoFocus></input>}
                 {formState.submitted && (!formState.correct ? renderAnswer() : <p>Correct!</p>)}
-                <button>{formState.submitted ? 'Next' : 'Submit'}</button>
+                <button type="button" onClick={handleSubmit}>{formState.submitted ? 'Next' : 'Submit'}</button>
             </form>
         </div>
     );

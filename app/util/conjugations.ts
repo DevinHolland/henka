@@ -1,4 +1,5 @@
 import { isAdjectiveCategory, isVerbCategory, type VerbCategory, type VocabProps } from "./vocab";
+import { toHiragana } from 'wanakana';
 
 const A_COLUMN_MAP: Record<string, string> = {
     'う': 'わ',
@@ -467,7 +468,7 @@ export function conjugateVocab(vocab: VocabProps): ConjugatedVocab[] {
 }
 
 function conjugate(dictionaryForm: string, conjugation: Conjugation): ConjugatedVocab[] {
-    const unchangedPart = dictionaryForm.slice(0, -1);
+    const unchangedPart = toHiragana(dictionaryForm.slice(0, -1));
     return conjugation.endings.map(ending => {
         const changedPart = typeof conjugation.endingChange === 'function' ?
             conjugation.endingChange(dictionaryForm.slice(-1)) + ending:

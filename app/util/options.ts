@@ -26,7 +26,7 @@ export const FORM_OPTIONS: FormOptions = {
     predicateNonPastPoliteAffirmative: {
         bitMaskId: formsBitMask.nextId(),
         vocabType: 'adjective',
-        label: 'Predicate: Non-Past Polite Affirmative',
+        label: 'Predicate Non-Past Polite Affirmative',
         tense: 'nonPast',
         politeness: 'polite',
         polarity: 'affirmative',
@@ -34,7 +34,7 @@ export const FORM_OPTIONS: FormOptions = {
     predicateNonPastPoliteNegative: {
         bitMaskId: formsBitMask.nextId(),
         vocabType: 'adjective',
-        label: 'Predicate: Non-Past Polite Negative',
+        label: 'Predicate Non-Past Polite Negative',
         tense: 'nonPast',
         politeness: 'polite',
         polarity: 'negative',

@@ -4,13 +4,14 @@
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
-
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+  @apply bg-slate-800;
+  color-scheme: dark;
 }
 
 button {
   @apply px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700
+}
+
+input[type="text"] {
+  @apply px-4 py-2;
 }

@@ -77,12 +77,13 @@ export const NestedCheckbox: React.FC<NestedCheckboxProps> = ({ options, setOpti
         const keyPath = parentKeyPath ? `${parentKeyPath}.` : '';
 
         return Object.keys(options).map(key => (
-            <div key={`${keyPath}${key}`} style={{ marginLeft: '20px' }}>
-                <label>
+            <div key={`${keyPath}${key}`} className="ml-5">
+                <label className="flex items-center space-x-2">
                     <input
                         type="checkbox"
                         checked={options[key].selected ? true : false}
                         onChange={() => handleCheckboxChange(`${keyPath}${key}`)}
+                        className="h-5 w-5 mr-2"
                     />
                     {options[key].label}
                 </label>

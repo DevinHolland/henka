@@ -5,13 +5,22 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
 } from "react-router";
 
 import type { Route } from "./+types/root";
 import stylesheet from "./app.css?url";
+import Spinner from "./components/spinner";
 
 export function HydrateFallback() {
-  return <div>Loading...</div>;
+  
+  return (
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-grow p-4 text-2xl flex items-center justify-center">
+        <Spinner />
+      </main>
+    </div>
+  );
 }
 
 export const links: Route.LinksFunction = () => [
@@ -23,9 +32,13 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap",
   },
   { rel: "stylesheet", href: stylesheet },
+  { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+  { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" },
+  { rel: "icon", type: "image/png", sizes: "16x16", href: "/favicon-16x16.png" },
+  { rel: "manifest", href: "/site.webmanifest" },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -33,7 +46,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <Meta />
         <Links />
       </head>
@@ -47,17 +60,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const navigation = useNavigation();
+
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="bg-blue-500 text-white p-4">
-        <h1 className="text-2xl">Yookoso! Conjugation Practice</h1>
+      <header className="bg-slate-400 text-black p-4 flex justify-center lg:justify-start">
+        <h1 className="text-2xl">Japanese Conjugation Practice</h1>
       </header>
-      <main className="flex-grow p-4 text-2xl">
-        <Outlet />
+      <main className="flex-grow p-4 text-lg flex justify-center lg:text-2xl">
+        {navigation.state === 'loading' && <Spinner />}
+        {navigation.state !== 'loading' && <Outlet />}
       </main>
-      <footer className="bg-blue-500 text-white p-4 mt-auto">
-        Yookoso! Conjugation Practice app by Devin Holland. Licensed under CC BY-SA.
-      </footer>
     </div>
   );
 }

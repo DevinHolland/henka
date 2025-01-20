@@ -46,7 +46,7 @@ const verbsOptions: NestedCheckboxOption = {
 
 export function meta({ }: Route.MetaArgs) {
     return [
-        { title: "Yookoso! Conjugation Practice" },
+        { title: "Japanese Conjugation Practice" },
         { name: "description", content: "Practice Japanese Conjugation" },
     ];
 }
