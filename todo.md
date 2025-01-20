@@ -3,7 +3,7 @@
 1. Loading state
 2. Make it look prettier
 3. Handle enter on answer state
-4. Deploy script
+4. -Deploy script-
 5. HTTPS (and domain?)
 6. License and whatnot
 7. Instructions on home page
