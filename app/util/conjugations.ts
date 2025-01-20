@@ -133,7 +133,7 @@ const verbConjugations: VerbConjugations = {
                     endings: ['ます'],
                 },
                 negative: {
-                    endingChange: A_COLUMN_MAP,
+                    endingChange: I_COLUMN_MAP,
                     endings: ['ません'],
                 },
             },
@@ -406,7 +406,7 @@ export function conjugateVocab(vocab: VocabProps): ConjugatedVocab[] {
 
     if (vocab.type === 'verb' && isVerbCategory(vocab.category)) {
         const verbCategoryConjugation = vocab.category === 'irregular'
-            ? (vocab.dictionaryForm === 'する' ? verbConjugations.irregular.suru : verbConjugations.irregular.kuru)
+            ? (vocab.kanaForm === 'する' ? verbConjugations.irregular.suru : verbConjugations.irregular.kuru)
             : verbConjugations[vocab.category];
 
         vocabConjugation = verbCategoryConjugation[vocab.politeness][vocab.tense];
@@ -430,7 +430,7 @@ export function conjugateVocab(vocab: VocabProps): ConjugatedVocab[] {
             conjugated,
         }));
     } else if (isConjugation(vocabConjugation)) {
-        return conjugate(vocab.dictionaryForm, vocabConjugation);
+        return conjugate(vocab.kanaForm, vocabConjugation);
     } else if (vocab.polarity && isTenseConjugation(vocabConjugation)) {
         const conjugationOrConjugated = vocabConjugation[vocab.polarity];
 
@@ -447,7 +447,7 @@ export function conjugateVocab(vocab: VocabProps): ConjugatedVocab[] {
                 conjugated: conjugation,
             }));
         } else {
-            return conjugate(vocab.dictionaryForm, conjugationOrConjugated);
+            return conjugate(vocab.kanaForm, conjugationOrConjugated);
         }
     }
 
@@ -458,7 +458,7 @@ function conjugate(dictionaryForm: string, conjugation: Conjugation): Conjugated
     const unchangedPart = dictionaryForm.slice(0, -1);
     return conjugation.endings.map(ending => {
         const changedPart = typeof conjugation.endingChange === 'function' ?
-            conjugation.endingChange(dictionaryForm.slice(-1)) :
+            conjugation.endingChange(dictionaryForm.slice(-1)) + ending:
             conjugation.endingChange[dictionaryForm.slice(-1)] + ending;
         return { unchangedPart, changedPart, conjugated: unchangedPart + changedPart };
     });

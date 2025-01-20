@@ -1,3 +1,5 @@
+import Papa from 'papaparse';
+
 export type Polarity = 'affirmative' | 'negative';
 export type Politeness = 'polite' | 'plain';
 
@@ -16,12 +18,13 @@ export function isVerbCategory(obj: any): obj is VerbCategory {
 export type VocabCategory = AdjectiveCategory | VerbCategory;
 
 export interface Vocab {
+    chapter: number;
     type: VocabType;
     category: VocabCategory;
-    dictionaryForm: string;
+    kanaForm: string;
     root: string;
     furigana?: string;
-    ending: string;
+    ending?: string;
 }
 
 export type Tense = 'nonPast' | 'past' | 'volitional' | 'potential';
@@ -29,4 +32,17 @@ export interface VocabProps extends Vocab {
     polarity?: Polarity;
     politeness: Politeness;
     tense: Tense;
+}
+
+export async function fetchVocab(): Promise<Vocab[]> {
+    const response = await fetch('/book1-vocab.csv');
+    const text = await response.text();
+
+    const parsed = Papa.parse(text, { 
+        dynamicTyping: true, 
+        header: true, 
+        skipEmptyLines: true 
+    }).data;
+
+    return parsed as Vocab[];
 }

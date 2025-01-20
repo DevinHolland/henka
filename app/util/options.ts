@@ -3,7 +3,7 @@ import type { Polarity, Politeness, Tense, VocabCategory } from "./vocab";
 
 export type VocabType = 'verb' | 'adjective';
 export interface FormOption extends WithBitMaskId {
-    vocabType: 'verb' | 'adjective';
+    vocabType: VocabType;
     label: string;
     tense: Tense;
     politeness: Politeness;
