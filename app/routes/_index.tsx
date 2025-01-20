@@ -50,9 +50,16 @@ const initialState: NestedCheckboxOptions = {
     label: "Chapter 5 Verbs",
     bitMaskId: 0n,
     children: {
-      verbPlainPotential: FORM_OPTIONS.verbPlainPotential,
+      verbPotentialPlain: FORM_OPTIONS.verbPotentialPlain,
     }
-  }
+  },
+  chapter6Verbs: {
+    label: "Chapter 6 Verbs",
+    bitMaskId: 0n,
+    children: {
+      verbVolitionalPlain: FORM_OPTIONS.verbVolitionalPlain,
+    }
+  },
 };
 
 export function meta({ }: Route.MetaArgs) {

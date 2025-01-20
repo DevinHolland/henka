@@ -40,6 +40,13 @@ const adjectivesOptions: NestedCheckboxOption = {
                 naAdjectives: VOCAB_OPTIONS.chapter5NaAdjectives,
             }
         },
+        chapter6: {
+            bitMaskId: 0n,
+            label: "Chapter 6",
+            children: {
+                iAdjectives: VOCAB_OPTIONS.chapter6IAdjectives,
+            }
+        },
     }
 };
 
@@ -69,6 +76,14 @@ const verbsOptions: NestedCheckboxOption = {
             children: {
                 godanVerbs: VOCAB_OPTIONS.chapter5GodanVerbs,
                 ichidanVerbs: VOCAB_OPTIONS.chapter5IchidanVerbs,
+            }
+        },
+        chapter6: {
+            bitMaskId: 0n,
+            label: "Chapter 6",
+            children: {
+                godanVerbs: VOCAB_OPTIONS.chapter6GodanVerbs,
+                ichidanVerbs: VOCAB_OPTIONS.chapter6IchidanVerbs,
             }
         },
     }

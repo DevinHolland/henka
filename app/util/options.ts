@@ -27,7 +27,8 @@ export interface FormOptions {
     adjPredicatePastPoliteNegative: FormOption;
     verbPastPlainAffirmative: FormOption;
     verbPastPlainNegative: FormOption;
-    verbPlainPotential: FormOption;
+    verbPotentialPlain: FormOption;
+    verbVolitionalPlain: FormOption;
 }
 
 const formsBitMask = new BitMask();
@@ -151,7 +152,7 @@ export const FORM_OPTIONS: FormOptions = {
         politeness: 'plain',
         polarity: 'affirmative',
     },
-    verbPastPlainNegative:{
+    verbPastPlainNegative: {
         bitMaskId: formsBitMask.nextId(),
         vocabType: 'verb',
         label: 'Past Plain Negative',
@@ -159,11 +160,18 @@ export const FORM_OPTIONS: FormOptions = {
         politeness: 'plain',
         polarity: 'negative',
     },
-    verbPlainPotential:{
+    verbPotentialPlain: {
         bitMaskId: formsBitMask.nextId(),
         vocabType: 'verb',
-        label: 'Plain Potential',
+        label: 'Potential Plain',
         tense: 'potential',
+        politeness: 'plain',
+    },
+    verbVolitionalPlain: {
+        bitMaskId: formsBitMask.nextId(),
+        vocabType: 'verb',
+        label: 'Volitional Plain',
+        tense: 'volitional',
         politeness: 'plain',
     },
 };
@@ -191,6 +199,8 @@ export interface VocabOptions {
 
     chapter5NaAdjectives: VocabOption;
 
+    chapter6IAdjectives: VocabOption;
+
     // Verbs
     chapter3GodanVerbs: VocabOption;
     chapter3IchidanVerbs: VocabOption;
@@ -200,6 +210,9 @@ export interface VocabOptions {
 
     chapter5GodanVerbs: VocabOption;
     chapter5IchidanVerbs: VocabOption;
+
+    chapter6GodanVerbs: VocabOption;
+    chapter6IchidanVerbs: VocabOption;
 }
 
 const iAdjectiveBase: VocabOptionBase = {
@@ -266,10 +279,17 @@ export const VOCAB_OPTIONS: VocabOptions = {
         bitMaskId: vocabBitMask.nextId(),
         chapter: 4,
     },
+
     chapter5NaAdjectives: {
         ...naAdjectiveBase,
         bitMaskId: vocabBitMask.nextId(),
         chapter: 5,
+    },
+
+    chapter6IAdjectives: {
+        ...iAdjectiveBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 6,
     },
 
     // Verbs
@@ -304,5 +324,16 @@ export const VOCAB_OPTIONS: VocabOptions = {
         ...ichidanVerbBase,
         bitMaskId: vocabBitMask.nextId(),
         chapter: 5
+    },
+
+    chapter6GodanVerbs: {
+        ...godanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 6
+    },
+    chapter6IchidanVerbs: {
+        ...ichidanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 6
     },
 }
