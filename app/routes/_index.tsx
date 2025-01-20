@@ -1,12 +1,14 @@
-import { getOptionsBitmask, getSelectedLowestLevelOptions, NestedCheckbox, type NestedCheckboxOption, type NestedCheckboxOptions } from "~/components/nested-checkbox";
+import { getSelectedLowestLevelOptions, NestedCheckbox, type NestedCheckboxOptions } from "~/components/nested-checkbox";
 import type { Route } from "./+types/_index";
 import { useState } from 'react';
 import { useNavigate } from "react-router";
 import { FORM_OPTIONS } from "~/util/options";
+import { getBitmaskBase64 } from "~/util/bitmask";
 
 const initialState: NestedCheckboxOptions = {
   chapter2Adjectives: {
     label: "Chapter 2 Adjectives",
+    bitMaskId: 0n,
     children: {
       predicateNonPastPoliteAffirmative: FORM_OPTIONS.predicateNonPastPoliteAffirmative,
       predicateNonPastPoliteNegative: FORM_OPTIONS.predicateNonPastPoliteNegative,
@@ -14,6 +16,7 @@ const initialState: NestedCheckboxOptions = {
   },
   chapter3Verbs: {
     label: "Chapter 3 Verbs",
+    bitMaskId: 0n,
     children: {
       nonPastPlainNegative: FORM_OPTIONS.nonPastPlainNegative,
       nonPastPoliteAffirmative: FORM_OPTIONS.nonPastPoliteAffirmative,
@@ -45,7 +48,7 @@ export default function Home() {
       setError("Please select at least one option.");
     } else {
       setError(null);
-      navigate(`/vocab/${getOptionsBitmask(selectedOptions)}`);
+      navigate(`/vocab/${getBitmaskBase64(selectedOptions)}`);
     }
   };
 

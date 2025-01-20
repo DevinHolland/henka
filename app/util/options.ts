@@ -1,23 +1,11 @@
-import type { AdjectiveTense, AdjectiveType, Polarity, Politeness, VerbTense, VerbType } from "./vocab";
-
-let bitMaskPower = 0n;
-function nextId(): bigint {
-    return 2n ** bitMaskPower++;
-}
-
-interface WithBitMaskId {
-    bitMaskId: bigint
-}
-
-export function findAllByMask<T extends WithBitMaskId>(mask: bigint, arr: T[]): T[] {
-    return arr.filter(o => mask & o.bitMaskId);
-}
+import { BitMask, type WithBitMaskId } from "./bitmask";
+import type { Polarity, Politeness, Tense, VocabCategory } from "./vocab";
 
 export type VocabType = 'verb' | 'adjective';
 export interface FormOption extends WithBitMaskId {
     vocabType: 'verb' | 'adjective';
     label: string;
-    tense: VerbTense | AdjectiveTense;
+    tense: Tense;
     politeness: Politeness;
     polarity?: Polarity;
 }
@@ -33,9 +21,10 @@ export interface FormOptions {
     volitionalPolite: FormOption;
 }
 
+const formsBitMask = new BitMask();
 export const FORM_OPTIONS: FormOptions = {
     predicateNonPastPoliteAffirmative: {
-        bitMaskId: nextId(),
+        bitMaskId: formsBitMask.nextId(),
         vocabType: 'adjective',
         label: 'Predicate: Non-Past Polite Affirmative',
         tense: 'nonPast',
@@ -43,7 +32,7 @@ export const FORM_OPTIONS: FormOptions = {
         polarity: 'affirmative',
     },
     predicateNonPastPoliteNegative: {
-        bitMaskId: nextId(),
+        bitMaskId: formsBitMask.nextId(),
         vocabType: 'adjective',
         label: 'Predicate: Non-Past Polite Negative',
         tense: 'nonPast',
@@ -51,7 +40,7 @@ export const FORM_OPTIONS: FormOptions = {
         polarity: 'negative',
     },
     nonPastPlainNegative: {
-        bitMaskId: nextId(),
+        bitMaskId: formsBitMask.nextId(),
         vocabType: 'verb',
         label: 'Non-Past Plain Negative',
         tense: 'nonPast',
@@ -59,7 +48,7 @@ export const FORM_OPTIONS: FormOptions = {
         polarity: 'negative',
     },
     nonPastPoliteAffirmative: {
-        bitMaskId: nextId(),
+        bitMaskId: formsBitMask.nextId(),
         vocabType: 'verb',
         label: 'Non-Past Polite Affirmative',
         tense: 'nonPast',
@@ -67,7 +56,7 @@ export const FORM_OPTIONS: FormOptions = {
         polarity: 'affirmative',
     },
     nonPastPoliteNegative: {
-        bitMaskId: nextId(),
+        bitMaskId: formsBitMask.nextId(),
         vocabType: 'verb',
         label: 'Non-Past Polite Negative',
         tense: 'nonPast',
@@ -75,7 +64,7 @@ export const FORM_OPTIONS: FormOptions = {
         polarity: 'negative',
     },
     pastPoliteAffirmative: {
-        bitMaskId: nextId(),
+        bitMaskId: formsBitMask.nextId(),
         vocabType: 'verb',
         label: 'Past Polite Affirmative',
         tense: 'past',
@@ -83,7 +72,7 @@ export const FORM_OPTIONS: FormOptions = {
         polarity: 'affirmative',
     },
     pastPoliteNegative: {
-        bitMaskId: nextId(),
+        bitMaskId: formsBitMask.nextId(),
         vocabType: 'verb',
         label: 'Past Polite Negative',
         tense: 'past',
@@ -91,7 +80,7 @@ export const FORM_OPTIONS: FormOptions = {
         polarity: 'negative',
     },
     volitionalPolite: {
-        bitMaskId: nextId(),
+        bitMaskId: formsBitMask.nextId(),
         vocabType: 'verb',
         label: 'Volitional Polite',
         tense: 'volitional',
@@ -99,10 +88,98 @@ export const FORM_OPTIONS: FormOptions = {
     }
 };
 
-// reset bitmask keep url shorter
-bitMaskPower = 0n;
-export interface VocabOption extends WithBitMaskId {
+interface VocabOptionBase {
     vocabType: VocabType;
+    category: VocabCategory;
+    label: string;
+}
+
+export interface VocabOption extends WithBitMaskId, VocabOptionBase {
     chapter: number;
-    category: AdjectiveType | VerbType
+}
+
+export interface VocabOptions {
+    // Adjectives
+    chapter2IAdjectives: VocabOption;
+    chapter2NaAdjectives: VocabOption;
+
+    chapter3IAdjectives: VocabOption;
+    chapter3NaAdjectives: VocabOption;
+
+    // Verbs
+    chapter3GodanVerbs: VocabOption;
+    chapter3IchidanVerbs: VocabOption;
+    chapter3IrregularVerbs: VocabOption;
+}
+
+const iAdjectiveBase: VocabOptionBase = {
+    vocabType: 'adjective',
+    category: 'i',
+    label: 'い Adjectives'
+}
+const naAdjectiveBase: VocabOptionBase = {
+    vocabType: 'adjective',
+    category: 'na',
+    label: 'な Adjectives'
+}
+
+const godanVerbBase: VocabOptionBase = {
+    vocabType: 'verb',
+    category: 'godan',
+    label: 'Class 1 (a.k.a. 五段)'
+}
+
+const ichidanVerbBase: VocabOptionBase = {
+    vocabType: 'verb',
+    category: 'ichidan',
+    label: 'Class 2 (a.k.a. 一段)'
+}
+
+const irregularVerbBase: VocabOptionBase = {
+    vocabType: 'verb',
+    category: 'irregular',
+    label: 'Class 3 (する and くる)'
+}
+
+const vocabBitMask = new BitMask();
+export const VOCAB_OPTIONS: VocabOptions = {
+    // Adjectives
+    chapter2IAdjectives: {
+        ...iAdjectiveBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 2,
+    },
+    chapter2NaAdjectives: {
+        ...naAdjectiveBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 2,
+    },
+
+    chapter3IAdjectives: {
+        ...iAdjectiveBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 3,
+    },
+    chapter3NaAdjectives: {
+        ...naAdjectiveBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 3,
+    },
+
+    // Verbs
+    chapter3GodanVerbs: {
+        ...godanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 3
+    },
+    chapter3IchidanVerbs: {
+        ...ichidanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 3
+    },
+    chapter3IrregularVerbs: {
+        ...irregularVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 3
+    },
 }

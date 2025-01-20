@@ -1,11 +1,13 @@
+import type { WithBitMaskId } from "~/util/bitmask";
+
 export interface NestedCheckboxOptions {
     [key: string]: NestedCheckboxOption;
 }
 
-export interface NestedCheckboxOption {
+export interface NestedCheckboxOption extends WithBitMaskId {
     selected?: boolean;
     label: string;
-    bitMaskId?: bigint;
+    bitMaskId: bigint;
     children?: NestedCheckboxOptions
 }
 
@@ -46,10 +48,6 @@ export function getSelectedLowestLevelOptions(options: NestedCheckboxOptions): N
     }
 
     return selectedOptions;
-}
-
-export function getOptionsBitmask(options: NestedCheckboxOption[]): bigint {
-    return options.reduce((acc, option) => acc + (option.bitMaskId ? option.bitMaskId : 0n), 0n)
 }
 
 export const NestedCheckbox: React.FC<NestedCheckboxProps> = ({ options, setOptions, onChange }) => {

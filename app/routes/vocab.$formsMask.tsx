@@ -2,51 +2,43 @@ import { getSelectedLowestLevelOptions, NestedCheckbox, type NestedCheckboxOptio
 import type { Route } from "./+types/vocab.$formsMask";
 import { useState } from 'react';
 import { useNavigate, useParams } from "react-router";
-import { findAllByMask, FORM_OPTIONS, type FormOption } from "~/util/options";
+import { FORM_OPTIONS, VOCAB_OPTIONS, type FormOption } from "~/util/options";
+import { findAllByMask, getBitmaskBase64 as getBitMaskBase64 } from "~/util/bitmask";
 
 const adjectivesOptions: NestedCheckboxOption = {
+    bitMaskId: 0n,
     label: "Adjectives",
     children: {
         chapter2: {
+            bitMaskId: 0n,
             label: "Chapter 2",
             children: {
-                iAdjectives: {
-                    label: "い Adjectives",
-                },
-                naAdjectives: {
-                    label: "な Adjectives",
-                }
+                iAdjectives: VOCAB_OPTIONS.chapter2IAdjectives,
+                naAdjectives: VOCAB_OPTIONS.chapter2NaAdjectives,
             }
         },
         chapter3: {
+            bitMaskId: 0n,
             label: "Chapter 3",
             children: {
-                iAdjectives: {
-                    label: "い Adjectives",
-                },
-                naAdjectives: {
-                    label: "な Adjectives",
-                }
+                iAdjectives: VOCAB_OPTIONS.chapter3IAdjectives,
+                naAdjectives: VOCAB_OPTIONS.chapter3NaAdjectives,
             }
         }
     }
 };
 
 const verbsOptions: NestedCheckboxOption = {
+    bitMaskId: 0n,
     label: "Verbs",
     children: {
         chapter3: {
+            bitMaskId: 0n,
             label: "Chapter 3",
             children: {
-                godanVerbs: {
-                    label: "Class 1 (a.k.a. 五段)",
-                },
-                ichidanVerbs: {
-                    label: "Class 2 (a.k.a. 一段)",
-                },
-                irregularVerbs: {
-                    label: "Class 3 (する and くる)",
-                }
+                godanVerbs: VOCAB_OPTIONS.chapter3GodanVerbs,
+                ichidanVerbs: VOCAB_OPTIONS.chapter3IchidanVerbs,
+                irregularVerbs: VOCAB_OPTIONS.chapter3IrregularVerbs,
             }
         }
     }
@@ -62,7 +54,7 @@ export function meta({ }: Route.MetaArgs) {
 export default function Vocab() {
     const { formsMask } = useParams();
 
-    const selectedForms = findAllByMask(formsMask ? BigInt(formsMask) : 0n, Object.values(FORM_OPTIONS) as FormOption[]);
+    const selectedForms = formsMask ? findAllByMask(formsMask, Object.values(FORM_OPTIONS) as FormOption[]) : [];
 
     const initialState: NestedCheckboxOptions = {};
     if (selectedForms.some(form => form.vocabType === 'adjective')) {
@@ -84,7 +76,7 @@ export default function Vocab() {
             setError("Please select at least one option.");
         } else {
             setError(null);
-            navigate('/practice');
+            navigate(`/practice/${formsMask}/${getBitMaskBase64(selectedOptions)}`);
         }
     };
 
