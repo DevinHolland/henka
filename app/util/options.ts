@@ -11,19 +11,27 @@ export interface FormOption extends WithBitMaskId {
 }
 
 export interface FormOptions {
-    predicateNonPastPoliteAffirmative: FormOption;
-    predicateNonPastPoliteNegative: FormOption;
-    nonPastPlainNegative: FormOption;
-    nonPastPoliteAffirmative: FormOption;
-    nonPastPoliteNegative: FormOption;
-    pastPoliteAffirmative: FormOption;
-    pastPoliteNegative: FormOption;
-    volitionalPolite: FormOption;
+    adjPredicateNonPastPoliteAffirmative: FormOption;
+    adjPredicateNonPastPoliteNegative: FormOption;
+    verbNonPastPlainNegative: FormOption;
+    verbNonPastPoliteAffirmative: FormOption;
+    verbNonPastPoliteNegative: FormOption;
+    verbPastPoliteAffirmative: FormOption;
+    verbPastPoliteNegative: FormOption;
+    verbVolitionalPolite: FormOption;
+    adjPredicateNonPastPlainAffirmative: FormOption;
+    adjPredicateNonPastPlainNegative: FormOption;
+    adjPredicatePastPlainAffirmative: FormOption;
+    adjPredicatePastPlainNegative: FormOption;
+    adjPredicatePastPoliteAffirmative: FormOption;
+    adjPredicatePastPoliteNegative: FormOption;
+    verbPastPlainAffirmative: FormOption;
+    verbPastPlainNegative: FormOption;
 }
 
 const formsBitMask = new BitMask();
 export const FORM_OPTIONS: FormOptions = {
-    predicateNonPastPoliteAffirmative: {
+    adjPredicateNonPastPoliteAffirmative: {
         bitMaskId: formsBitMask.nextId(),
         vocabType: 'adjective',
         label: 'Predicate Non-Past Polite Affirmative',
@@ -31,7 +39,7 @@ export const FORM_OPTIONS: FormOptions = {
         politeness: 'polite',
         polarity: 'affirmative',
     },
-    predicateNonPastPoliteNegative: {
+    adjPredicateNonPastPoliteNegative: {
         bitMaskId: formsBitMask.nextId(),
         vocabType: 'adjective',
         label: 'Predicate Non-Past Polite Negative',
@@ -39,7 +47,7 @@ export const FORM_OPTIONS: FormOptions = {
         politeness: 'polite',
         polarity: 'negative',
     },
-    nonPastPlainNegative: {
+    verbNonPastPlainNegative: {
         bitMaskId: formsBitMask.nextId(),
         vocabType: 'verb',
         label: 'Non-Past Plain Negative',
@@ -47,7 +55,7 @@ export const FORM_OPTIONS: FormOptions = {
         politeness: 'plain',
         polarity: 'negative',
     },
-    nonPastPoliteAffirmative: {
+    verbNonPastPoliteAffirmative: {
         bitMaskId: formsBitMask.nextId(),
         vocabType: 'verb',
         label: 'Non-Past Polite Affirmative',
@@ -55,7 +63,7 @@ export const FORM_OPTIONS: FormOptions = {
         politeness: 'polite',
         polarity: 'affirmative',
     },
-    nonPastPoliteNegative: {
+    verbNonPastPoliteNegative: {
         bitMaskId: formsBitMask.nextId(),
         vocabType: 'verb',
         label: 'Non-Past Polite Negative',
@@ -63,7 +71,7 @@ export const FORM_OPTIONS: FormOptions = {
         politeness: 'polite',
         polarity: 'negative',
     },
-    pastPoliteAffirmative: {
+    verbPastPoliteAffirmative: {
         bitMaskId: formsBitMask.nextId(),
         vocabType: 'verb',
         label: 'Past Polite Affirmative',
@@ -71,7 +79,7 @@ export const FORM_OPTIONS: FormOptions = {
         politeness: 'polite',
         polarity: 'affirmative',
     },
-    pastPoliteNegative: {
+    verbPastPoliteNegative: {
         bitMaskId: formsBitMask.nextId(),
         vocabType: 'verb',
         label: 'Past Polite Negative',
@@ -79,13 +87,77 @@ export const FORM_OPTIONS: FormOptions = {
         politeness: 'polite',
         polarity: 'negative',
     },
-    volitionalPolite: {
+    verbVolitionalPolite: {
         bitMaskId: formsBitMask.nextId(),
         vocabType: 'verb',
         label: 'Volitional Polite',
         tense: 'volitional',
         politeness: 'polite',
-    }
+    },
+    adjPredicateNonPastPlainAffirmative: {
+        bitMaskId: formsBitMask.nextId(),
+        vocabType: 'adjective',
+        label: 'Predicate Non-Past Plain Affirmative',
+        tense: 'nonPast',
+        politeness: 'plain',
+        polarity: 'affirmative',
+    },
+    adjPredicateNonPastPlainNegative: {
+        bitMaskId: formsBitMask.nextId(),
+        vocabType: 'adjective',
+        label: 'Predicate Non-Past Plain Negative',
+        tense: 'nonPast',
+        politeness: 'plain',
+        polarity: 'negative',
+    },
+    adjPredicatePastPlainAffirmative: {
+        bitMaskId: formsBitMask.nextId(),
+        vocabType: 'adjective',
+        label: 'Predicate Past Plain Affirmative',
+        tense: 'past',
+        politeness: 'plain',
+        polarity: 'affirmative',
+    },
+    adjPredicatePastPlainNegative: {
+        bitMaskId: formsBitMask.nextId(),
+        vocabType: 'adjective',
+        label: 'Predicate Past Plain Negative',
+        tense: 'past',
+        politeness: 'plain',
+        polarity: 'negative',
+    },
+    adjPredicatePastPoliteAffirmative: {
+        bitMaskId: formsBitMask.nextId(),
+        vocabType: 'adjective',
+        label: 'Predicate Past Polite Affirmative',
+        tense: 'past',
+        politeness: 'polite',
+        polarity: 'affirmative',
+    },
+    adjPredicatePastPoliteNegative: {
+        bitMaskId: formsBitMask.nextId(),
+        vocabType: 'adjective',
+        label: 'Predicate Past Polite Negative',
+        tense: 'past',
+        politeness: 'polite',
+        polarity: 'negative',
+    },
+    verbPastPlainAffirmative: {
+        bitMaskId: formsBitMask.nextId(),
+        vocabType: 'verb',
+        label: 'Past Plain Affirmative',
+        tense: 'past',
+        politeness: 'plain',
+        polarity: 'affirmative',
+    },
+    verbPastPlainNegative:{
+        bitMaskId: formsBitMask.nextId(),
+        vocabType: 'verb',
+        label: 'Past Plain Negative',
+        tense: 'past',
+        politeness: 'plain',
+        polarity: 'negative',
+    },
 };
 
 interface VocabOptionBase {
@@ -106,10 +178,15 @@ export interface VocabOptions {
     chapter3IAdjectives: VocabOption;
     chapter3NaAdjectives: VocabOption;
 
+    chapter4IAdjectives: VocabOption;
+    chapter4NaAdjectives: VocabOption;
+
     // Verbs
     chapter3GodanVerbs: VocabOption;
     chapter3IchidanVerbs: VocabOption;
     chapter3IrregularVerbs: VocabOption;
+
+    chapter4GodanVerbs: VocabOption;
 }
 
 const iAdjectiveBase: VocabOptionBase = {
@@ -166,6 +243,17 @@ export const VOCAB_OPTIONS: VocabOptions = {
         chapter: 3,
     },
 
+    chapter4IAdjectives: {
+        ...iAdjectiveBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 4,
+    },
+    chapter4NaAdjectives: {
+        ...naAdjectiveBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 4,
+    },
+
     // Verbs
     chapter3GodanVerbs: {
         ...godanVerbBase,
@@ -181,5 +269,11 @@ export const VOCAB_OPTIONS: VocabOptions = {
         ...irregularVerbBase,
         bitMaskId: vocabBitMask.nextId(),
         chapter: 3
+    },
+
+    chapter4GodanVerbs: {
+        ...godanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 4
     },
 }

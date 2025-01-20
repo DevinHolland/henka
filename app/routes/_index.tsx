@@ -10,20 +10,40 @@ const initialState: NestedCheckboxOptions = {
     label: "Chapter 2 Adjectives",
     bitMaskId: 0n,
     children: {
-      predicateNonPastPoliteAffirmative: FORM_OPTIONS.predicateNonPastPoliteAffirmative,
-      predicateNonPastPoliteNegative: FORM_OPTIONS.predicateNonPastPoliteNegative,
+      predicateNonPastPoliteAffirmative: FORM_OPTIONS.adjPredicateNonPastPoliteAffirmative,
+      predicateNonPastPoliteNegative: FORM_OPTIONS.adjPredicateNonPastPoliteNegative,
     }
   },
   chapter3Verbs: {
     label: "Chapter 3 Verbs",
     bitMaskId: 0n,
     children: {
-      nonPastPlainNegative: FORM_OPTIONS.nonPastPlainNegative,
-      nonPastPoliteAffirmative: FORM_OPTIONS.nonPastPoliteAffirmative,
-      nonPastPoliteNegative: FORM_OPTIONS.nonPastPoliteNegative,
-      pastPoliteAffirmative: FORM_OPTIONS.pastPoliteAffirmative,
-      pastPoliteNegative: FORM_OPTIONS.pastPoliteNegative,
-      volitionalPolite: FORM_OPTIONS.volitionalPolite,
+      nonPastPlainNegative: FORM_OPTIONS.verbNonPastPlainNegative,
+      nonPastPoliteAffirmative: FORM_OPTIONS.verbNonPastPoliteAffirmative,
+      nonPastPoliteNegative: FORM_OPTIONS.verbNonPastPoliteNegative,
+      pastPoliteAffirmative: FORM_OPTIONS.verbPastPoliteAffirmative,
+      pastPoliteNegative: FORM_OPTIONS.verbPastPoliteNegative,
+      volitionalPolite: FORM_OPTIONS.verbVolitionalPolite,
+    }
+  },
+  chapter4Adjectives: {
+    label: "Chapter 4 Adjectives",
+    bitMaskId: 0n,
+    children: {
+      adjPredicateNonPastPlainAffirmative: FORM_OPTIONS.adjPredicateNonPastPlainAffirmative,
+      adjPredicateNonPastPlainNegative: FORM_OPTIONS.adjPredicateNonPastPlainNegative,
+      adjPredicatePastPlainAffirmative: FORM_OPTIONS.adjPredicatePastPlainAffirmative,
+      adjPredicatePastPlainNegative: FORM_OPTIONS.adjPredicatePastPlainNegative,
+      adjPredicatePastPoliteAffirmative: FORM_OPTIONS.adjPredicatePastPoliteAffirmative,
+      adjPredicatePastPoliteNegative: FORM_OPTIONS.adjPredicatePastPoliteNegative,
+    }
+  },
+  chapter4Verbs: {
+    label: "Chapter 4 Verbs",
+    bitMaskId: 0n,
+    children: {
+      verbPastPlainAffirmative: FORM_OPTIONS.verbPastPlainAffirmative,
+      verbPastPlainNegative: FORM_OPTIONS.verbPastPlainNegative,
     }
   }
 };
