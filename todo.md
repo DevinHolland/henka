@@ -7,10 +7,10 @@
 5. -HTTPS- (and domain?)
 6. -License and whatnot-
 7. -Instructions on home page-
-8. Finish adding all chapters (forms and vocab)
+8. -Finish adding all chapters (forms and vocab)-
 9. -Favicon / Title updates-
 10. Testing
-    1. Fix iku past plain
+    1. -Fix iku past plain-
 11. Tell Sensei and class about it!
 
 

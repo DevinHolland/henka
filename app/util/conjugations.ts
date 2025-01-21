@@ -415,20 +415,16 @@ export interface ConjugatedVocab {
 }
 
 export function conjugateVocab(vocab: VocabProps): ConjugatedVocab[] {
-    let vocabConjugation: string | string[] | TenseConjugation | Conjugation | undefined;
-
-    if (vocab.type === 'verb' && isVerbCategory(vocab.category)) {
-        const verbCategoryConjugation = vocab.category === 'irregular'
-            ? (vocab.kanaForm === 'する' ? verbConjugations.irregular.suru : verbConjugations.irregular.kuru)
-            : verbConjugations[vocab.category];
-
-        vocabConjugation = verbCategoryConjugation[vocab.politeness][vocab.tense];
-    } else if (vocab.type === 'adjective' && isAdjectiveCategory(vocab.category)) {
-        const adjectiveCategoryConjugation = vocab.category === 'irregular'
-            ? adjectiveConjugations.irregular.yoi // only よい is known as an exception at the time of this writing
-            : adjectiveConjugations[vocab.category];
-        vocabConjugation = adjectiveCategoryConjugation[vocab.politeness][vocab.tense];
+    if(vocab.kanaForm === 'いく' && vocab.politeness === 'plain' && vocab.tense === 'past' && vocab.polarity === 'affirmative') {
+        // いく special case
+        return [{
+            unchangedPart: 'い',
+            changedPart: 'った',
+            conjugated: 'いった',
+        }]
     }
+
+    const vocabConjugation = getVocabConjugation(vocab);
 
     if (typeof vocabConjugation === 'string') {
         return [{
@@ -467,8 +463,28 @@ export function conjugateVocab(vocab: VocabProps): ConjugatedVocab[] {
     throw new Error('Unhandled conjugation');
 }
 
+function getVocabConjugation(vocab: VocabProps) {
+    let vocabConjugation: string | string[] | TenseConjugation | Conjugation | undefined;
+
+    if (vocab.type === 'verb' && isVerbCategory(vocab.category)) {
+        const verbCategoryConjugation = vocab.category === 'irregular'
+            ? (vocab.kanaForm === 'する' ? verbConjugations.irregular.suru : verbConjugations.irregular.kuru)
+            : verbConjugations[vocab.category];
+
+        vocabConjugation = verbCategoryConjugation[vocab.politeness][vocab.tense];
+    } else if (vocab.type === 'adjective' && isAdjectiveCategory(vocab.category)) {
+        const adjectiveCategoryConjugation = vocab.category === 'irregular'
+            ? adjectiveConjugations.irregular.yoi // only よい is known as an exception at the time of this writing
+            : adjectiveConjugations[vocab.category];
+        vocabConjugation = adjectiveCategoryConjugation[vocab.politeness][vocab.tense];
+    }
+
+    return vocabConjugation;
+}
+
 function conjugate(dictionaryForm: string, conjugation: Conjugation): ConjugatedVocab[] {
     const unchangedPart = toHiragana(dictionaryForm.slice(0, -1));
+    
     return conjugation.endings.map(ending => {
         const changedPart = typeof conjugation.endingChange === 'function' ?
             conjugation.endingChange(dictionaryForm.slice(-1)) + ending:
