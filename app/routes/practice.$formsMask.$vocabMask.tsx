@@ -156,7 +156,7 @@ export default function Practice({
             <p className="text-5xl">
                 <ruby>{formState.vocab.root}<rt className="pb-1">{formState.vocab.furigana}</rt></ruby>{formState.vocab.ending}
             </p>
-            <form className="flex flex-col items-center space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <form className="flex flex-col items-center space-y-4" onSubmit={(e) => e.preventDefault()} autoComplete="off" autoCorrect="off">
                 {error && <p className="text-red-500">{error}</p>}
                 {!formState.submitted && <input type="text" value={formState.inputValue} onChange={handleChange} autoFocus></input>}
                 {formState.submitted && (!formState.correct ? renderAnswer() : <p>Correct!</p>)}
