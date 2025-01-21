@@ -188,6 +188,9 @@ export interface VocabOption extends WithBitMaskId, VocabOptionBase {
 
 export interface VocabOptions {
     // Adjectives
+    chapter0IAdjectives: VocabOption;
+    chapter0NaAdjectives: VocabOption;
+
     chapter2IAdjectives: VocabOption;
     chapter2NaAdjectives: VocabOption;
 
@@ -197,22 +200,40 @@ export interface VocabOptions {
     chapter4IAdjectives: VocabOption;
     chapter4NaAdjectives: VocabOption;
 
+    chapter5IAdjectives: VocabOption;
     chapter5NaAdjectives: VocabOption;
 
     chapter6IAdjectives: VocabOption;
 
+    chapter7IAdjectives: VocabOption;
+    chapter7NaAdjectives: VocabOption;
+
     // Verbs
+    chapter0GodanVerbs: VocabOption;
+    chapter0IchidanVerbs: VocabOption;
+    chapter0IrregularVerbs: VocabOption;
+
+    chapter1GodanVerbs: VocabOption;
+    chapter1IchidanVerbs: VocabOption;
+
+    chapter2GodanVerbs: VocabOption;
+    chapter2IchidanVerbs: VocabOption;
+
     chapter3GodanVerbs: VocabOption;
     chapter3IchidanVerbs: VocabOption;
     chapter3IrregularVerbs: VocabOption;
 
     chapter4GodanVerbs: VocabOption;
+    chapter4IchidanVerbs: VocabOption;
 
     chapter5GodanVerbs: VocabOption;
     chapter5IchidanVerbs: VocabOption;
 
     chapter6GodanVerbs: VocabOption;
     chapter6IchidanVerbs: VocabOption;
+
+    chapter7GodanVerbs: VocabOption;
+    chapter7IchidanVerbs: VocabOption;
 }
 
 const iAdjectiveBase: VocabOptionBase = {
@@ -241,12 +262,23 @@ const ichidanVerbBase: VocabOptionBase = {
 const irregularVerbBase: VocabOptionBase = {
     vocabType: 'verb',
     category: 'irregular',
-    label: 'Class 3 (する and くる)'
+    label: ''
 }
 
 const vocabBitMask = new BitMask();
 export const VOCAB_OPTIONS: VocabOptions = {
     // Adjectives
+    chapter0IAdjectives: {
+        ...iAdjectiveBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 0,
+    },
+    chapter0NaAdjectives: {
+        ...naAdjectiveBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 0,
+    },
+
     chapter2IAdjectives: {
         ...iAdjectiveBase,
         bitMaskId: vocabBitMask.nextId(),
@@ -280,6 +312,11 @@ export const VOCAB_OPTIONS: VocabOptions = {
         chapter: 4,
     },
 
+    chapter5IAdjectives: {
+        ...iAdjectiveBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 5,
+    },
     chapter5NaAdjectives: {
         ...naAdjectiveBase,
         bitMaskId: vocabBitMask.nextId(),
@@ -292,7 +329,57 @@ export const VOCAB_OPTIONS: VocabOptions = {
         chapter: 6,
     },
 
+    chapter7IAdjectives: {
+        ...iAdjectiveBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 7,
+    },
+    chapter7NaAdjectives: {
+        ...naAdjectiveBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 7,
+    },
+
     // Verbs
+    chapter0GodanVerbs: {
+        ...godanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 0
+    },
+    chapter0IchidanVerbs: {
+        ...ichidanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 0
+    },
+    chapter0IrregularVerbs: {
+        ...irregularVerbBase,
+        label: 'Class 3 (する)',
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 3
+    },
+
+    chapter1GodanVerbs: {
+        ...godanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 1
+    },
+    chapter1IchidanVerbs: {
+        ...ichidanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 1
+    },
+
+    chapter2GodanVerbs: {
+        ...godanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 2
+    },
+    chapter2IchidanVerbs: {
+        ...ichidanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 2
+    },
+
     chapter3GodanVerbs: {
         ...godanVerbBase,
         bitMaskId: vocabBitMask.nextId(),
@@ -305,12 +392,18 @@ export const VOCAB_OPTIONS: VocabOptions = {
     },
     chapter3IrregularVerbs: {
         ...irregularVerbBase,
+        label: 'Class 3 (くる)',
         bitMaskId: vocabBitMask.nextId(),
         chapter: 3
     },
 
     chapter4GodanVerbs: {
         ...godanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 4
+    },
+    chapter4IchidanVerbs: {
+        ...ichidanVerbBase,
         bitMaskId: vocabBitMask.nextId(),
         chapter: 4
     },
@@ -335,5 +428,16 @@ export const VOCAB_OPTIONS: VocabOptions = {
         ...ichidanVerbBase,
         bitMaskId: vocabBitMask.nextId(),
         chapter: 6
+    },
+
+    chapter7GodanVerbs: {
+        ...godanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 7
+    },
+    chapter7IchidanVerbs: {
+        ...ichidanVerbBase,
+        bitMaskId: vocabBitMask.nextId(),
+        chapter: 7
     },
 }

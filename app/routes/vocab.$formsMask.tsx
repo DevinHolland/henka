@@ -9,6 +9,14 @@ const adjectivesOptions: NestedCheckboxOption = {
     bitMaskId: 0n,
     label: "Adjectives",
     children: {
+        gettingStarted: {
+            bitMaskId: 0n,
+            label: "Getting Started",
+            children: {
+                iAdjectives: VOCAB_OPTIONS.chapter0IAdjectives,
+                naAdjectives: VOCAB_OPTIONS.chapter0NaAdjectives,
+            }
+        },
         chapter2: {
             bitMaskId: 0n,
             label: "Chapter 2",
@@ -37,6 +45,7 @@ const adjectivesOptions: NestedCheckboxOption = {
             bitMaskId: 0n,
             label: "Chapter 5",
             children: {
+                iAdjectives: VOCAB_OPTIONS.chapter5IAdjectives,
                 naAdjectives: VOCAB_OPTIONS.chapter5NaAdjectives,
             }
         },
@@ -47,6 +56,14 @@ const adjectivesOptions: NestedCheckboxOption = {
                 iAdjectives: VOCAB_OPTIONS.chapter6IAdjectives,
             }
         },
+        chapter7: {
+            bitMaskId: 0n,
+            label: "Chapter 7",
+            children: {
+                iAdjectives: VOCAB_OPTIONS.chapter7IAdjectives,
+                naAdjectives: VOCAB_OPTIONS.chapter7NaAdjectives,
+            }
+        },
     }
 };
 
@@ -54,6 +71,31 @@ const verbsOptions: NestedCheckboxOption = {
     bitMaskId: 0n,
     label: "Verbs",
     children: {
+        gettingStarted: {
+            bitMaskId: 0n,
+            label: "Getting Started",
+            children: {
+                godanVerbs: VOCAB_OPTIONS.chapter0GodanVerbs,
+                ichidanVerbs: VOCAB_OPTIONS.chapter0IchidanVerbs,
+                irregularVerbs: VOCAB_OPTIONS.chapter0IrregularVerbs,
+            }
+        },
+        chapter1: {
+            bitMaskId: 0n,
+            label: "Chapter 1",
+            children: {
+                godanVerbs: VOCAB_OPTIONS.chapter1GodanVerbs,
+                ichidanVerbs: VOCAB_OPTIONS.chapter1IchidanVerbs,
+            }
+        },
+        chapter2: {
+            bitMaskId: 0n,
+            label: "Chapter 2",
+            children: {
+                godanVerbs: VOCAB_OPTIONS.chapter2GodanVerbs,
+                ichidanVerbs: VOCAB_OPTIONS.chapter2IchidanVerbs,
+            }
+        },
         chapter3: {
             bitMaskId: 0n,
             label: "Chapter 3",
@@ -68,6 +110,7 @@ const verbsOptions: NestedCheckboxOption = {
             label: "Chapter 4",
             children: {
                 godanVerbs: VOCAB_OPTIONS.chapter4GodanVerbs,
+                ichidanVerbs: VOCAB_OPTIONS.chapter4IchidanVerbs,
             }
         },
         chapter5: {
@@ -84,6 +127,14 @@ const verbsOptions: NestedCheckboxOption = {
             children: {
                 godanVerbs: VOCAB_OPTIONS.chapter6GodanVerbs,
                 ichidanVerbs: VOCAB_OPTIONS.chapter6IchidanVerbs,
+            }
+        },
+        chapter7: {
+            bitMaskId: 0n,
+            label: "Chapter 7",
+            children: {
+                godanVerbs: VOCAB_OPTIONS.chapter7GodanVerbs,
+                ichidanVerbs: VOCAB_OPTIONS.chapter7IchidanVerbs,
             }
         },
     }
