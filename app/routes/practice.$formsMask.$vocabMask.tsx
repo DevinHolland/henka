@@ -154,7 +154,7 @@ export default function Practice({
         <div className="flex flex-col items-center space-y-4">
             <h1 className="text-2xl text-center">{formState.vocabForm.label} form of:</h1>
             <p className="text-5xl">
-                <ruby>{formState.vocab.root}<rt className="pb-1">{formState.vocab.furigana}</rt></ruby>{formState.vocab.ending}
+                <ruby>{formState.vocab.root}<rt className="lg:pb-1">{formState.vocab.furigana}</rt></ruby>{formState.vocab.ending}
             </p>
             <form className="flex flex-col items-center space-y-4" onSubmit={(e) => e.preventDefault()} autoComplete="off" autoCorrect="off">
                 {error && <p className="text-red-500">{error}</p>}
