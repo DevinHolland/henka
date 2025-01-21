@@ -2,6 +2,7 @@ import {
   isRouteErrorResponse,
   Links,
   Meta,
+  NavLink,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -64,8 +65,11 @@ export default function App() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="bg-slate-400 text-black p-4 flex justify-center lg:justify-start">
-        <h1 className="text-2xl">Japanese Conjugation Practice</h1>
+      <header className="bg-slate-400 text-black p-4 flex justify-start">
+        <NavLink to="/" className="pr-2">
+          <img src="/favicon-32x32.png" alt="Kanji for 'Change'" />
+        </NavLink>
+        <h1 className="text-2xl">Conjugation Practice</h1>
       </header>
       <main className="flex-grow p-4 text-lg flex justify-center lg:text-2xl">
         {navigation.state === 'loading' && <Spinner />}
