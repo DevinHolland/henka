@@ -71,7 +71,7 @@ export default function App() {
         </NavLink>
         <h1 className="text-2xl">Conjugation Practice</h1>
       </header>
-      <main className="flex-grow p-4 text-lg flex justify-center lg:text-2xl">
+      <main className="flex-grow p-4 text-lg flex justify-center lg:text-xl">
         {navigation.state === 'loading' && <Spinner />}
         {navigation.state !== 'loading' && <Outlet />}
       </main>

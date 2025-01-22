@@ -88,7 +88,21 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center">
-      <h2 className="mb-4 ">Select which forms you wish to practice<br />(vocabulary will be chosen on the next page):</h2>
+      <div className="space-y-2 bg-slate-700 p-4 m-4 max-w-prose">
+        <h2 className="text-xl font-medium">Welcome!</h2>
+        <p>
+          The purpose of this site is to practice conjugating Japanese adjectives and verbs. 
+        </p>
+        <p>
+          You'll choose which forms and vocabularly lists to practice. 
+          The site will then choose a random vocab word and ask you to conjugate it in a random form you have chosen.
+        </p>
+        <p>
+          The site uses a built in Japanese IME for converting romaji to hiragana. 
+          If you are unfamiliar with how to type in Japanese, Tofugu has a great guide <a href="https://www.tofugu.com/japanese/how-to-type-in-japanese/" target="_blank">here</a> (only hiragana is supported on this site).
+        </p>
+      </div>
+      <h2 className="mb-4">Select which forms you wish to practice<br />(vocabulary will be chosen on the next page):</h2>
       <form onSubmit={onSubmit} className="flex flex-col items-center">
         <NestedCheckbox options={options} setOptions={setOptions} onChange={() => setError(null)} />
         {error && <p className="text-red-500">{error}</p>}

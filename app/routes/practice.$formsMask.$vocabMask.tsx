@@ -135,13 +135,22 @@ export default function Practice({
         });
     };
 
+    const renderInput = () => {
+        return (
+            <div className="flex flex-col items-end space-y-1">
+                <a href={`https://jisho.org/search/${formState.vocab.root}${formState.vocab.ending ? formState.vocab.ending : ''}`} target="_blank">Jisho</a>
+                <input type="text" value={formState.inputValue} onChange={handleChange} autoFocus />
+            </div>
+        );
+    }
+
     const renderAnswer = () => {
         return (
             <div className="flex flex-col items-center space-y-1">
                 <h3>You entered:</h3>
                 <p className="text-2xl">{formState.inputValue}</p>
-                <h3>The correct answer{formState.conjugations && formState.conjugations.length > 1 ? 's are' : ' is'}:</h3>
-                {formState.conjugations?.map(conjugation => (
+                {(formState.correct) ? <h3>Correct!</h3> : <h3>The correct answer{formState.conjugations && formState.conjugations.length > 1 ? 's are' : ' is'}:</h3>}
+                {!formState.correct && formState.conjugations?.map(conjugation => (
                     <p key={conjugation.conjugated} className="text-2xl">
                         {conjugation.unchangedPart}<span className="font-bold">{conjugation.changedPart}</span>
                     </p>
@@ -158,9 +167,10 @@ export default function Practice({
             </p>
             <form className="flex flex-col items-center space-y-4" onSubmit={(e) => e.preventDefault()} autoComplete="off" autoCorrect="off">
                 {error && <p className="text-red-500">{error}</p>}
-                {!formState.submitted && <input type="text" value={formState.inputValue} onChange={handleChange} autoFocus></input>}
-                {formState.submitted && (!formState.correct ? renderAnswer() : <p>Correct!</p>)}
-                <button type="button" onClick={handleSubmit}>{formState.submitted ? 'Next' : 'Submit'}</button>
+                {(!formState.submitted && renderInput()) || renderAnswer()}
+                <button type="button" onClick={handleSubmit}>
+                    {formState.submitted ? 'Next' : 'Submit'}
+                </button>
             </form>
         </div>
     );
