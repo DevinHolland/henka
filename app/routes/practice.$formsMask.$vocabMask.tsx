@@ -36,8 +36,9 @@ interface FormState {
 
 export async function clientLoader({ params }: Route.LoaderArgs) {
     const vocab = await fetchVocab();
+
+    const selectedForms = findAllByMask(params.formsMask, Object.values(FORM_OPTIONS) as FormOption[]);
     const vocabOptions = findAllByMask(params.vocabMask, Object.values(VOCAB_OPTIONS) as VocabOption[]);
-    const selectedForms = findAllByMask(params.formsMask, Object.values(FORM_OPTIONS));
 
     const selectedVocab = vocab.filter(candidate =>
         vocabOptions.some(option =>
@@ -138,7 +139,7 @@ export default function Practice({
     const renderInput = () => {
         return (
             <div className="flex flex-col items-end space-y-1">
-                <a href={`https://jisho.org/search/${formState.vocab.root}${formState.vocab.ending ? formState.vocab.ending : ''}`} target="_blank">Jisho</a>
+                <a href={`https://jisho.org/search/${formState.vocab.root}${formState.vocab.ending ? formState.vocab.ending : ''}`} target="jisho">Jisho</a>
                 <input type="text" value={formState.inputValue} onChange={handleChange} autoFocus />
             </div>
         );

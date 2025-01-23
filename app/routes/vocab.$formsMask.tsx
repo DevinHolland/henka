@@ -3,7 +3,7 @@ import type { Route } from "./+types/vocab.$formsMask";
 import { useState } from 'react';
 import { useNavigate, useParams } from "react-router";
 import { FORM_OPTIONS, VOCAB_OPTIONS, type FormOption } from "~/util/options";
-import { findAllByMask, getBitmaskBase64 as getBitMaskBase64 } from "~/util/bitmask";
+import { findAllByMask, getBitMaskBase64 } from "~/util/bitmask";
 
 const adjectivesOptions: NestedCheckboxOption = {
     bitMaskId: 0n,

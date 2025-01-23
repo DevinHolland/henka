@@ -1,8 +1,9 @@
-import { BitMask, type WithBitMaskId } from "./bitmask";
+import { BitMask, getBitMaskBase64, type WithBitMaskId } from "./bitmask";
 import type { Polarity, Politeness, Tense, VocabCategory } from "./vocab";
 
 export type VocabType = 'verb' | 'adjective';
 export interface FormOption extends WithBitMaskId {
+    chapter: number;
     vocabType: VocabType;
     label: string;
     tense: Tense;
@@ -35,6 +36,7 @@ const formsBitMask = new BitMask();
 export const FORM_OPTIONS: FormOptions = {
     adjPredicateNonPastPoliteAffirmative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 2,
         vocabType: 'adjective',
         label: 'Predicate Non-Past Polite Affirmative',
         tense: 'nonPast',
@@ -43,6 +45,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     adjPredicateNonPastPoliteNegative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 2,
         vocabType: 'adjective',
         label: 'Predicate Non-Past Polite Negative',
         tense: 'nonPast',
@@ -51,6 +54,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     verbNonPastPlainNegative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 3,
         vocabType: 'verb',
         label: 'Non-Past Plain Negative',
         tense: 'nonPast',
@@ -59,6 +63,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     verbNonPastPoliteAffirmative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 3,
         vocabType: 'verb',
         label: 'Non-Past Polite Affirmative',
         tense: 'nonPast',
@@ -67,6 +72,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     verbNonPastPoliteNegative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 3,
         vocabType: 'verb',
         label: 'Non-Past Polite Negative',
         tense: 'nonPast',
@@ -75,6 +81,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     verbPastPoliteAffirmative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 3,
         vocabType: 'verb',
         label: 'Past Polite Affirmative',
         tense: 'past',
@@ -83,6 +90,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     verbPastPoliteNegative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 3,
         vocabType: 'verb',
         label: 'Past Polite Negative',
         tense: 'past',
@@ -91,6 +99,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     verbVolitionalPolite: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 3,
         vocabType: 'verb',
         label: 'Volitional Polite',
         tense: 'volitional',
@@ -98,6 +107,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     adjPredicateNonPastPlainAffirmative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 4,
         vocabType: 'adjective',
         label: 'Predicate Non-Past Plain Affirmative',
         tense: 'nonPast',
@@ -106,6 +116,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     adjPredicateNonPastPlainNegative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 4,
         vocabType: 'adjective',
         label: 'Predicate Non-Past Plain Negative',
         tense: 'nonPast',
@@ -114,6 +125,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     adjPredicatePastPlainAffirmative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 4,
         vocabType: 'adjective',
         label: 'Predicate Past Plain Affirmative',
         tense: 'past',
@@ -122,6 +134,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     adjPredicatePastPlainNegative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 4,
         vocabType: 'adjective',
         label: 'Predicate Past Plain Negative',
         tense: 'past',
@@ -130,6 +143,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     adjPredicatePastPoliteAffirmative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 4,
         vocabType: 'adjective',
         label: 'Predicate Past Polite Affirmative',
         tense: 'past',
@@ -138,6 +152,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     adjPredicatePastPoliteNegative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 4,
         vocabType: 'adjective',
         label: 'Predicate Past Polite Negative',
         tense: 'past',
@@ -146,6 +161,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     verbPastPlainAffirmative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 4,
         vocabType: 'verb',
         label: 'Past Plain Affirmative',
         tense: 'past',
@@ -154,6 +170,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     verbPastPlainNegative: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 4,
         vocabType: 'verb',
         label: 'Past Plain Negative',
         tense: 'past',
@@ -162,6 +179,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     verbPotentialPlain: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 5,
         vocabType: 'verb',
         label: 'Potential Plain',
         tense: 'potential',
@@ -169,6 +187,7 @@ export const FORM_OPTIONS: FormOptions = {
     },
     verbVolitionalPlain: {
         bitMaskId: formsBitMask.nextId(),
+        chapter: 6,
         vocabType: 'verb',
         label: 'Volitional Plain',
         tense: 'volitional',

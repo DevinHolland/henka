@@ -1,66 +1,39 @@
-import { getSelectedLowestLevelOptions, NestedCheckbox, type NestedCheckboxOptions } from "~/components/nested-checkbox";
+import { getSelectedLowestLevelOptions, NestedCheckbox, type NestedCheckboxOption, type NestedCheckboxOptions } from "~/components/nested-checkbox";
 import type { Route } from "./+types/_index";
 import { useState } from 'react';
 import { useNavigate } from "react-router";
-import { FORM_OPTIONS } from "~/util/options";
-import { getBitmaskBase64 } from "~/util/bitmask";
+import { FORM_OPTIONS, type FormOption } from "~/util/options";
+import { getBitMaskBase64 } from "~/util/bitmask";
 
-const initialState: NestedCheckboxOptions = {
-  chapter2Adjectives: {
-    label: "Chapter 2 Adjectives",
-    bitMaskId: 0n,
-    children: {
-      predicateNonPastPoliteAffirmative: FORM_OPTIONS.adjPredicateNonPastPoliteAffirmative,
-      predicateNonPastPoliteNegative: FORM_OPTIONS.adjPredicateNonPastPoliteNegative,
+
+function optionsAsNestedCheckboxes(): NestedCheckboxOptions {
+  const options: NestedCheckboxOptions = {};
+
+  (Object.values(FORM_OPTIONS) as FormOption[]).sort((a, b) => {
+    if (a.chapter !== b.chapter) return a.chapter - b.chapter;
+    if (a.vocabType === 'adjective' && b.vocabType === 'verb') return -1;
+    if (a.vocabType === 'verb' && b.vocabType === 'adjective') return 1;
+    return 0;
+  }).forEach((option: FormOption) => {
+    const parentKey = `chapter${option.chapter}${option.vocabType}`;
+    if(!options[parentKey]) {
+      options[parentKey] = {
+        label: `Chapter ${option.chapter} ${option.vocabType.charAt(0).toUpperCase()}${option.vocabType.slice(1)}s`,
+        bitMaskId: BigInt(option.chapter),
+      }
     }
-  },
-  chapter3Verbs: {
-    label: "Chapter 3 Verbs",
-    bitMaskId: 0n,
-    children: {
-      nonPastPlainNegative: FORM_OPTIONS.verbNonPastPlainNegative,
-      nonPastPoliteAffirmative: FORM_OPTIONS.verbNonPastPoliteAffirmative,
-      nonPastPoliteNegative: FORM_OPTIONS.verbNonPastPoliteNegative,
-      pastPoliteAffirmative: FORM_OPTIONS.verbPastPoliteAffirmative,
-      pastPoliteNegative: FORM_OPTIONS.verbPastPoliteNegative,
-      volitionalPolite: FORM_OPTIONS.verbVolitionalPolite,
+
+    if(!options[parentKey].children) {
+      options[parentKey].children = {}
     }
-  },
-  chapter4Adjectives: {
-    label: "Chapter 4 Adjectives",
-    bitMaskId: 0n,
-    children: {
-      adjPredicateNonPastPlainAffirmative: FORM_OPTIONS.adjPredicateNonPastPlainAffirmative,
-      adjPredicateNonPastPlainNegative: FORM_OPTIONS.adjPredicateNonPastPlainNegative,
-      adjPredicatePastPlainAffirmative: FORM_OPTIONS.adjPredicatePastPlainAffirmative,
-      adjPredicatePastPlainNegative: FORM_OPTIONS.adjPredicatePastPlainNegative,
-      adjPredicatePastPoliteAffirmative: FORM_OPTIONS.adjPredicatePastPoliteAffirmative,
-      adjPredicatePastPoliteNegative: FORM_OPTIONS.adjPredicatePastPoliteNegative,
-    }
-  },
-  chapter4Verbs: {
-    label: "Chapter 4 Verbs",
-    bitMaskId: 0n,
-    children: {
-      verbPastPlainAffirmative: FORM_OPTIONS.verbPastPlainAffirmative,
-      verbPastPlainNegative: FORM_OPTIONS.verbPastPlainNegative,
-    }
-  },
-  chapter5Verbs: {
-    label: "Chapter 5 Verbs",
-    bitMaskId: 0n,
-    children: {
-      verbPotentialPlain: FORM_OPTIONS.verbPotentialPlain,
-    }
-  },
-  chapter6Verbs: {
-    label: "Chapter 6 Verbs",
-    bitMaskId: 0n,
-    children: {
-      verbVolitionalPlain: FORM_OPTIONS.verbVolitionalPlain,
-    }
-  },
-};
+
+    options[parentKey].children[option.bitMaskId.toString()] = option;
+  });
+
+  return options;
+}
+
+const initialState: NestedCheckboxOptions = optionsAsNestedCheckboxes();
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -82,7 +55,7 @@ export default function Home() {
       setError("Please select at least one option.");
     } else {
       setError(null);
-      navigate(`/vocab/${getBitmaskBase64(selectedOptions)}`);
+      navigate(`/vocab/${getBitMaskBase64(selectedOptions)}`);
     }
   };
 
@@ -99,10 +72,12 @@ export default function Home() {
         </p>
         <p>
           The site uses a built in Japanese IME for converting romaji to hiragana. 
-          If you are unfamiliar with how to type in Japanese, Tofugu has a great guide <a href="https://www.tofugu.com/japanese/how-to-type-in-japanese/" target="_blank">here</a> (only hiragana is supported on this site).
+          If you are unfamiliar with how to type in Japanese,{' '}
+          <a href="https://www.tofugu.com/japanese/how-to-type-in-japanese/" target="_blank">Tofugu has a great guide</a>{' '}
+          (only hiragana is supported on this site).
         </p>
       </div>
-      <h2 className="mb-4">Select which forms you wish to practice<br />(vocabulary will be chosen on the next page):</h2>
+      <h2 className="mb-4">Select which forms you wish to practice<br />(vocabulary will be chosen on the next page):</h2>      
       <form onSubmit={onSubmit} className="flex flex-col items-center">
         <NestedCheckbox options={options} setOptions={setOptions} onChange={() => setError(null)} />
         {error && <p className="text-red-500">{error}</p>}

@@ -12,7 +12,7 @@ export class BitMask {
     }
 }
 
-export function getBitmaskBase64(arr: WithBitMaskId[]): string {
+export function getBitMaskBase64(arr: WithBitMaskId[]): string {
     return bigintToBase64(arr.reduce((acc, o) => acc + (o.bitMaskId ? o.bitMaskId : 0n), 0n), true, false);
 }
 
