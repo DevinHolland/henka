@@ -17,7 +17,7 @@ export default function handleRequest(
   loadContext: AppLoadContext
 ) {
   return new Promise((resolve, reject) => {
-    if(request.url.includes('wp-admin')) {
+    if(request.url.includes('wp-admin') || request.url.includes('wp-includes') || request.url.includes('wordpress')) {
       resolve(Response.redirect('https://media.tenor.com/uizXjlI9h0QAAAAM/youre-a-dick-rude.gif'));
       return;
     }
